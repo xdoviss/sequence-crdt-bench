@@ -42,7 +42,7 @@ Documentation:
 Install the Python packages once (all platforms):
 
 ```bash
-python -m pip install -r scripts/requirements.txt      # Linux/macOS may need: python3 -m pip ...
+python -m pip install -r scripts/requirements.txt # Linux/macOS may need: python3 -m pip ...
 ```
 
 Platform setup in detail:

@@ -1,7 +1,8 @@
 # Builds the project, runs the test suite, all experiments and the analysis (Windows PowerShell)
 param(
     [ValidateSet("quick", "full")] [string]$Mode = "quick",
-    [string]$BuildDir = "build"
+    [string]$BuildDir = "build",
+    [string]$Python = ""   # optional path to the python.exe used for analysis
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
@@ -30,17 +31,32 @@ function Find-CMake {
            "or install CMake with: winget install Kitware.CMake")
 }
 
-# skips MS placeholder
+# picks the first Python 3 that can import the analysis packages (skips the MS Store placeholder
+# and installs without matplotlib/pandas); -Python <path> overrides the search
 function Find-Python {
-    foreach ($Candidate in @("py -3", "python", "python3")) {
+    if ($Python) { return @{ Exe = $Python; Prefix = @() } }
+
+    $Candidates = @("py -3", "python", "python3")
+    # every version the py launcher knows about, e.g. "py -V:3.12"
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        $Candidates += @(py -0 2>$null | ForEach-Object { if ($_ -match "-V:(\S+)") { "py -V:$($Matches[1])" } })
+    }
+
+    $FirstPython3 = $null
+    foreach ($Candidate in $Candidates) {
         $Parts = $Candidate -split " "
         $Command = Get-Command $Parts[0] -ErrorAction SilentlyContinue
         if (-not $Command) { continue }
-
         $Prefix = @($Parts | Select-Object -Skip 1)
+
         try {
             $Version = & $Command.Source @Prefix --version 2>&1
-            if ($LASTEXITCODE -eq 0 -and "$Version" -match "Python 3") {
+            if ($LASTEXITCODE -ne 0 -or "$Version" -notmatch "Python 3") { continue }
+            if (-not $FirstPython3) { $FirstPython3 = "$Candidate" }
+
+            & $Command.Source @Prefix -c "import matplotlib, pandas" 2>&1 | Out-Null
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "   using Python: $Candidate ($Version)"
                 return @{ Exe = $Command.Source; Prefix = $Prefix }
             }
         } catch {
@@ -48,6 +64,9 @@ function Find-Python {
         }
     }
 
+    if ($FirstPython3) {
+        throw "No Python with matplotlib + pandas found. Install them with: $FirstPython3 -m pip install -r scripts\requirements.txt"
+    }
     throw "Python 3 not found (needed only for graphs): winget install Python.Python.3.12"
 }
 
@@ -78,7 +97,7 @@ foreach ($cfg in @("micro", "merge", "memory", "workloads", "network", "sync_int
 }
 
 Write-Host "== analysis (graphs + tables)"
-$Python = Find-Python
-Invoke-Checked $Python.Exe ($Python.Prefix + @("scripts\analyze.py", $Out))
+$Py = Find-Python
+Invoke-Checked $Py.Exe ($Py.Prefix + @("scripts\analyze.py", $Out))
 
 Write-Host "== done: results in $Out, figures in $Out\figures, tables in $Out\tables.md"
