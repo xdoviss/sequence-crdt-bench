@@ -98,8 +98,7 @@ int run_simulations(const ExperimentSetup& setup) {
     for (auto& distribution : kDistributions) {
         for (auto& statistic : {"mean", "median", "p95", "p99", "max", "ci95"}) header.push_back(distribution + "_" + statistic);
     }
-    Csv
-    Writer output(join_path(setup.output_directory, setup.name + ".csv"), header);
+    CsvWriter output(join_path(setup.output_directory, setup.name + ".csv"), header);
 
     size_t failures = 0;
     for (const SweepPoint& point : points) {
