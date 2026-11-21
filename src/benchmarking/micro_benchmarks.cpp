@@ -248,7 +248,7 @@ int run_micro(const ExperimentSetup& setup) {
             auto operations_per_second = [&](const char* metric) {
                 return summaries.count(metric) && summaries[metric].mean > 0 ? 1e6 / summaries[metric].mean : 0.0;
             };
-            
+
             const double size = static_cast<double>(document_size);
             const double snapshot_bytes = static_cast<double>(snapshot.size());
             const double content_bytes = size; // one byte per ASCII letter
@@ -259,8 +259,10 @@ int run_micro(const ExperimentSetup& setup) {
                            format_number(average(insert_body_bytes, insert_count)),
                            format_number(average(delete_body_bytes, delete_count)),
                            format_number(average(insert_wire_bytes, insert_count)),
-                           format_number(average(id_bytes, id_count)), format_number(static_cast<double>(heap_bytes)),
-                           format_number(document_size ? static_cast<double>(heap_bytes) / size : 0),
+                           format_number(average(id_bytes, id_count)),
+                           heap_tracker::enabled() ? format_number(static_cast<double>(heap_bytes)) : "",
+                           heap_tracker::enabled() && document_size
+                               ? format_number(static_cast<double>(heap_bytes) / size) : "",
                            format_number(static_cast<double>(estimated_bytes)),
                            format_number(operations_per_second("insert_latency_us")),
                            format_number(operations_per_second("delete_latency_us")),

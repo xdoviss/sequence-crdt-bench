@@ -72,9 +72,9 @@ target_compile_definitions(crdt_core PRIVATE
   CRDT_CXX_FLAGS="${flags_text}")
 
 # ---------------------------------------------------------------------------
-# experiment runner
+# experiment runners
 # ---------------------------------------------------------------------------
-add_executable(crdt_bench
+set(bench_sources
   src/benchmarking/main.cpp
   src/benchmarking/config.cpp
   src/benchmarking/results.cpp
@@ -84,8 +84,12 @@ add_executable(crdt_bench
   src/benchmarking/memory_experiment.cpp
   src/benchmarking/simulation_experiment.cpp
 )
-target_include_directories(crdt_bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmarking)
-target_link_libraries(crdt_bench PRIVATE crdt_core)
+foreach(bench_target crdt_bench crdt_bench_heap)
+  add_executable(${bench_target} ${bench_sources})
+  target_include_directories(${bench_target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmarking)
+  target_link_libraries(${bench_target} PRIVATE crdt_core)
+endforeach()
+target_compile_definitions(crdt_bench_heap PRIVATE CRDT_HEAP_TRACKING=1)
 
 # ---------------------------------------------------------------------------
 # tests

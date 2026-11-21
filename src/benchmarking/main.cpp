@@ -5,6 +5,7 @@
 #include "crdt/common/platform.hpp"
 #include "crdt/simulations/workload.hpp"
 #include "experiments.hpp"
+#include "heap_tracker.hpp"
 
 namespace benchmarking {
 
@@ -37,6 +38,7 @@ namespace {
 void print_usage() {
     std::cerr << "usage:\n"
                  "  crdt_bench run <config.ini> [--out DIR] [--name NAME] [--set section.key=value ...]\n"
+                 "  (memory experiments: use crdt_bench_heap, the build with the heap-counting hook)\n"
                  "  crdt_bench env\n"
                  "  crdt_bench list\n";
 }
@@ -50,7 +52,8 @@ int print_environment() {
               << "cpu:           " << environment.cpu_model << "\n"
               << "logical cores: " << environment.logical_cores << "\n"
               << "ram:           " << (environment.total_ram_bytes >> 20) << " MiB\n"
-              << "time (UTC):    " << environment.timestamp_utc << "\n";
+              << "time (UTC):    " << environment.timestamp_utc << "\n"
+              << "heap hook:     " << heap_tracker::hook_description() << "\n";
 
     return 0;
 }

@@ -65,6 +65,9 @@ void write_row(CsvWriter& writer, const MemoryRow& row, const SequenceCRDT& crdt
 int run_memory(const ExperimentSetup& setup) {
     const Config& config = setup.config;
     const std::string section = "memory";
+#if !defined(CRDT_HEAP_TRACKING)
+    throw std::runtime_error("the memory experiment needs the heap hook: run it with crdt_bench_heap, not crdt_bench");
+#endif
     if (!heap_tracker::enabled()) print_progress("[memory] warning: heap tracking unavailable on this platform\n");
 
     auto selected_algorithms = algorithms(config, section);

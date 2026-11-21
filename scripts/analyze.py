@@ -248,10 +248,11 @@ def micro_benchmarks():
         sizes = ordered(sizes, ["doc_size"])
         add_table("Serialization sizes, identifiers and throughput (micro)", sizes,
                   ["doc_size", "algorithm", "state_bytes", "state_bytes_per_element", "insert_op_body_bytes",
-                   "delete_op_body_bytes", "insert_op_wire_bytes", "id_bytes_avg", "heap_bytes_per_element",
+                   "delete_op_body_bytes", "insert_op_wire_bytes", "id_bytes_avg",
                    "avg_id_depth", "insert_ops_per_sec", "merge_ops_per_sec"],
                   ["n", "algorithm", "state B", "state B/elem", "insert op B", "delete op B", "insert wire B",
-                   "id B", "heap B/elem", "avg id depth", "insert ops/s", "merge ops/s"])
+                   "id B", "avg id depth", "insert ops/s", "merge ops/s"])
+        # heap per element - see the memory experiment (micro runs without the heap hook, so it has no heap numbers)
         
         findings["sizes.state_bytes_per_element"] = best(sizes, "doc_size", "state_bytes_per_element")
         findings["sizes.insert_op_body_bytes"] = best(sizes, "doc_size", "insert_op_body_bytes")

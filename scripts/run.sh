@@ -31,7 +31,10 @@ echo "== correctness tests"
 
 echo "== experiments ($MODE)"
 for cfg in micro merge memory workloads network sync_intervals scale_replicas scale_ops intensity; do
-  "$BIN/crdt_bench" run "configs/$MODE/$cfg.ini" --out "$OUT"
+  # memory needs the heap-counting hook, timing experiments run without it
+  RUNNER="$BIN/crdt_bench"
+  [[ "$cfg" == memory ]] && RUNNER="$BIN/crdt_bench_heap"
+  "$RUNNER" run "configs/$MODE/$cfg.ini" --out "$OUT"
 done
 
 echo "== analysis (graphs + tables)"

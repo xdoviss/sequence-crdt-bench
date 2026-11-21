@@ -1,5 +1,17 @@
 #include "heap_tracker.hpp"
 
+#if !defined(CRDT_HEAP_TRACKING) // heap counting adds around 12% latency
+
+namespace heap_tracker {
+bool enabled() { return false; }
+size_t current_bytes() { return 0; }
+size_t peak_bytes() { return 0; }
+void reset_peak() {}
+const char* hook_description() { return "off"; }
+}  // namespace heap_tracker
+
+#else
+
 #include <atomic>
 #include <cstdint>
 #include <cstdlib>
@@ -18,10 +30,6 @@
 
 namespace {
 
-// NOTE: these atomic counters (including the allocation count, which is not reported) are
-// kept exactly as in the runs reported in the paper. 
-// counting adds a small cost to every allocation inside
-// the timed code and keeping that cost the same keeps timings comparable.
 std::atomic<size_t> current_heap{0};
 std::atomic<size_t> peak_heap{0};
 std::atomic<uint64_t> allocation_count{0};
@@ -100,6 +108,10 @@ size_t current_bytes() { return current_heap.load(std::memory_order_relaxed); }
 size_t peak_bytes() { return peak_heap.load(std::memory_order_relaxed); }
 void reset_peak() { peak_heap.store(current_heap.load(std::memory_order_relaxed), std::memory_order_relaxed); }
 
+const char* hook_description() {
+    return enabled() ? "on (operator new/delete counts usable size)" : "on, but usable size unavailable on this platform";
+}
+
 }  // namespace heap_tracker
 
 // replace every form of the global allocation functions, so nothing slips past the counters
@@ -114,3 +126,5 @@ void operator delete(void* pointer, std::size_t) noexcept { tracked_free(pointer
 void operator delete[](void* pointer, std::size_t) noexcept { tracked_free(pointer); }
 void operator delete(void* pointer, const std::nothrow_t&) noexcept { tracked_free(pointer); }
 void operator delete[](void* pointer, const std::nothrow_t&) noexcept { tracked_free(pointer); }
+
+#endif  // CRDT_HEAP_TRACKING

@@ -2,16 +2,23 @@
 //
 // for each allocation we count the size the allocator reserved.
 // includes allocators' rounding up
+//
+// only active in crdt_bench_heap (built with CRDT_HEAP_TRACKING)
+// in crdt_bench every function returns 0 and enabled() is false,
+// so timing runs pay nothing per allocation
 #pragma once
 
 #include <cstddef>
 
 namespace heap_tracker {
 
-bool enabled(); // false on platforms where the real allocation size cannot be asked for
+bool enabled(); // false without the hook, or on platforms where the real allocation size cannot be asked for
 size_t current_bytes();
 size_t peak_bytes();
 void reset_peak();
+
+// "off" in crdt_bench, "on (...)" in crdt_bench_heap, written to every .meta.json
+const char* hook_description();
 
 // measures how much the heap grew since this object was created
 class HeapScope {

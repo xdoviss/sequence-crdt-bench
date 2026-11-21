@@ -78,7 +78,8 @@ Invoke-Checked $CMake @("--build", $BuildDir, "--config", "Release", "--parallel
 # Visual Studio generators put binaries in <build>\Release, Ninja/Makefiles in <build>
 $Bin = Join-Path $BuildDir "Release"
 if (-not (Test-Path (Join-Path $Bin "crdt_bench.exe"))) { $Bin = $BuildDir }
-$Bench = Join-Path $Bin "crdt_bench.exe"
+$Bench = Join-Path $Bin "crdt_bench.exe"          # timings: no allocation hook
+$BenchHeap = Join-Path $Bin "crdt_bench_heap.exe"  # memory experiment: heap-counting operator new/delete
 $Tests = Join-Path $Bin "crdt_tests.exe"
 
 $Out = Join-Path "results" $Mode
@@ -93,7 +94,8 @@ if ($LASTEXITCODE -ne 0) { throw "tests failed" }
 
 Write-Host "== experiments ($Mode)"
 foreach ($cfg in @("micro", "merge", "memory", "workloads", "network", "sync_intervals", "scale_replicas", "scale_ops", "intensity")) {
-    Invoke-Checked $Bench @("run", "configs\$Mode\$cfg.ini", "--out", $Out)
+    $Runner = if ($cfg -eq "memory") { $BenchHeap } else { $Bench }
+    Invoke-Checked $Runner @("run", "configs\$Mode\$cfg.ini", "--out", $Out)
 }
 
 Write-Host "== analysis (graphs + tables)"

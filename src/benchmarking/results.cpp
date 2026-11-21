@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include "crdt/common/platform.hpp"
+#include "heap_tracker.hpp"
 
 namespace benchmarking {
 
@@ -111,7 +112,9 @@ void write_metadata(const std::string& path, const Config& config, const std::st
     output << "    \"cpu\": " << quoted(environment.cpu_model) << ",\n";
     output << "    \"logical_cores\": " << environment.logical_cores << ",\n";
     output << "    \"total_ram_bytes\": " << environment.total_ram_bytes << ",\n";
-    output << "    \"timestamp_utc\": " << quoted(environment.timestamp_utc) << "\n";
+    output << "    \"timestamp_utc\": " << quoted(environment.timestamp_utc) << ",\n";
+    // whether global operator new/delete was instrumented during this run (it costs time per allocation)
+    output << "    \"heap_hook\": " << quoted(heap_tracker::hook_description()) << "\n";
     output << "  },\n";
 
     output << "  \"config\": {";
