@@ -189,35 +189,44 @@ def save(figure, axes, name, title):
 def micro_benchmarks():
     micro = load("micro.csv")
     if micro is not None:
-        # each figure contains one row per metric, left = median, right = p99
+        # left = median of batches (time per operation), right = p99 of single timed operations (tail)
+        # lookups have no tail (they take about as long as one clock step), so both panels are medians
         for name, title, y_label, metrics in [
             ("fig01_insert_latency_vs_size.png", "Insertion latency vs document size", "µs per operation",
-             [("insert_latency_us", "Local insertion")]),
+             [("insert_latency_us", "Local insertion", "insert_single_us")]),
             ("fig02_delete_latency_vs_size.png", "Deletion latency vs document size", "µs per operation",
-             [("delete_latency_us", "Local deletion")]),
+             [("delete_latency_us", "Local deletion", "delete_single_us")]),
             ("fig03_lookup_latency_vs_size.png", "Lookup latency vs document size", "µs per lookup",
-             [("lookup_pos_us", "Lookup by position"), ("lookup_id_us", "Lookup by identifier")]),
+             [("lookup_pos_us", "Lookup by position", None), ("lookup_id_us", "Lookup by identifier", None)]),
             ("fig04_traversal_latency_vs_size.png", "Traversal latency vs document size", "ms per traversal",
-             [("traversal_ms", "Full traversal")]),
+             [("traversal_ms", "Full traversal", "traversal_ms")]),
             ("fig04b_merge_and_serialization_vs_size.png", "Merge and serialization vs document size",
              "µs (merge) / ms (state)",
-             [("merge_remote_op_us", "Remote operation (merge)"), ("state_serialize_ms", "State serialization")]),
+             [("merge_remote_op_us", "Remote operation (merge)", "merge_remote_single_us"),
+              ("state_serialize_ms", "State serialization", "state_serialize_ms")]),
         ]:
-            figure, axes = grid(len(metrics), 2, 10, 3.6 * len(metrics))
-            for row, (metric, metric_title) in enumerate(metrics):
-                subset = micro[micro.metric == metric]
-                lines(axes[row][0], subset, "doc_size", "median", f"{metric_title} — median (p50)",
+            panels = []
+            for metric, metric_title, tail in metrics:
+                panels.append((metric, "median", f"{metric_title} — median"))
+                if tail:
+                    panels.append((tail, "p99", f"{metric_title} — p99 (single operations)"
+                                   if tail != metric else f"{metric_title} — p99"))
+
+            figure, axes = grid((len(panels) + 1) // 2, 2, 10, 3.6 * ((len(panels) + 1) // 2))
+            for index, (metric, column, panel_title) in enumerate(panels):
+                lines(axes[index // 2][index % 2], micro[micro.metric == metric], "doc_size", column, panel_title,
                       "document size (elements)", y_label, log_y=True)
-                lines(axes[row][1], subset, "doc_size", "p99", f"{metric_title} — p99",
-                      "document size (elements)", y_label, log_y=True)
-                
+
             save(figure, axes, name, title)
 
         tables.append("## Operation latency vs document size (micro-benchmarks)\n\n"
-                      "Every operation timed individually; warm-up excluded; mean ± 95% CI half-width.\n")
-        
-        for metric in ["insert_latency_us", "delete_latency_us", "lookup_pos_us", "lookup_id_us", "traversal_ms",
-                       "merge_remote_op_us", "merge_batch_ms", "op_encode_us", "op_decode_us",
+                      "Operations timed in batches; every sample is the time per operation of one batch "
+                      "(`*_single_us`: operations timed one at a time, for the tail only); warm-up excluded; "
+                      "mean ± 95% CI half-width.\n")
+
+        for metric in ["insert_latency_us", "insert_single_us", "delete_latency_us", "delete_single_us",
+                       "lookup_pos_us", "lookup_id_us", "traversal_ms", "merge_remote_op_us",
+                       "merge_remote_single_us", "merge_batch_ms", "op_encode_us", "op_decode_us",
                        "state_serialize_ms", "state_deserialize_ms"]:
             subset = micro[micro.metric == metric]
             
@@ -275,8 +284,13 @@ def merge_experiment():
         save(figure, axes, "fig05_merge_latency_vs_replicas.png", "Merge latency vs number of concurrent replicas")
 
         latency = with_ci(ordered(latency, ["pattern", "replicas"]))
-        add_table("Merge latency vs concurrent replicas (µs per remote operation)", latency,
+        add_table("Merge latency vs concurrent replicas (µs per remote operation, batches of receives)", latency,
                   ["pattern", "replicas", "algorithm", "n", "mean ± ci95", "median", "p95", "p99", "max"])
+
+        tail = merge[merge.metric == "merge_latency_single_us"]
+        if not tail.empty:
+            add_table("Merge latency tail (µs, receives timed one at a time)", ordered(tail, ["pattern", "replicas"]),
+                      ["pattern", "replicas", "algorithm", "n", "median", "p95", "p99", "max"])
         
         for pattern in patterns:
             findings[f"merge.{pattern}.mean"] = best(latency[latency.pattern == pattern], "replicas", "mean")

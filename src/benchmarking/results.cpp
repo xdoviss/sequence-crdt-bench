@@ -113,6 +113,8 @@ void write_metadata(const std::string& path, const Config& config, const std::st
     output << "    \"logical_cores\": " << environment.logical_cores << ",\n";
     output << "    \"total_ram_bytes\": " << environment.total_ram_bytes << ",\n";
     output << "    \"timestamp_utc\": " << quoted(environment.timestamp_utc) << ",\n";
+    output << "    \"timer_resolution_ns\": " << environment.timer_resolution_ns << ",\n";
+    output << "    \"timer_overhead_ns\": " << environment.timer_overhead_ns << ",\n";
     // whether global operator new/delete was instrumented during this run (it costs time per allocation)
     output << "    \"heap_hook\": " << quoted(heap_tracker::hook_description()) << "\n";
     output << "  },\n";

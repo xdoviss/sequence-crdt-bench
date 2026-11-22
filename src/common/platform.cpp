@@ -178,6 +178,29 @@ std::string utc_now() {
     return buffer;
 }
 
+void measure_timer(EnvironmentInfo& info) {
+    int64_t smallest = 0;
+    for (int attempt = 0; attempt < 1000; ++attempt) {
+        int64_t start = now_ns();
+        int64_t end = now_ns();
+        while (end == start) {
+            end = now_ns();
+        }
+        if (smallest == 0 || end - start < smallest) {
+            smallest = end - start;
+        }
+    }
+
+    const int calls = 1000000;
+    int64_t start = now_ns();
+    int64_t last = start;
+    for (int call = 0; call < calls; ++call) {
+        last = now_ns();
+    }
+    info.timer_resolution_ns = static_cast<double>(smallest);
+    info.timer_overhead_ns = static_cast<double>(last - start) / calls;
+}
+
 }  // namespace
 
 EnvironmentInfo environment_info() {
@@ -190,6 +213,7 @@ EnvironmentInfo environment_info() {
     info.logical_cores = std::thread::hardware_concurrency();
     info.total_ram_bytes = total_ram_bytes();
     info.timestamp_utc = utc_now();
+    measure_timer(info);
     return info;
 }
 

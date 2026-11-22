@@ -33,6 +33,7 @@ int run_merge(const ExperimentSetup& setup) {
     const size_t initial_size = static_cast<size_t>(config.get_int(section, "initial_doc_size", 10000));
     const size_t operations_per_replica = static_cast<size_t>(config.get_int(section, "ops_per_replica", 200));
     const size_t repetitions = static_cast<size_t>(config.get_int(section, "repetitions", 3));
+    const size_t batch = static_cast<size_t>(config.get_int(section, "batch_ops", 25));
     const uint64_t seed = static_cast<uint64_t>(config.get_int(section, "seed", 1));
     auto patterns = config.get_list(section, "patterns", {"hotspot"});
     CRDTOptions options = crdt_options(config);
@@ -93,12 +94,27 @@ int run_merge(const ExperimentSetup& setup) {
                         crdt->deserialize(snapshot);
                         Replica observer(observer_id, std::move(crdt), DeliveryMode::Causal, false);
 
+                        // batches of `batch_ops` receives (time per receive), every second batch timed one
+                        // receive at a time for the tail (merge_latency_single_us)
+                        const size_t total = operations_per_replica * replica_count;
+                        const size_t batches = std::max<size_t>(1, total / std::max<size_t>(1, batch));
                         int64_t merge_start = now_ns();
-                        for (size_t count = 0; count < operations_per_replica; ++count) {
-                            for (size_t origin = 0; origin < replica_count; ++origin) {
+                        for (size_t number = 0; number < batches; ++number) {
+                            const size_t begin = number * total / batches;
+                            const size_t end = (number + 1) * total / batches;
+                            if (number % 2 == 1) {
+                                for (size_t index = begin; index < end; ++index) {
+                                    int64_t start = now_ns();
+                                    observer.receive(operations[index % replica_count][index / replica_count]);
+                                    samples["merge_latency_single_us"].push_back(elapsed_ns(start, now_ns()) / 1e3);
+                                }
+                            } else {
                                 int64_t start = now_ns();
-                                observer.receive(operations[origin][count]);
-                                samples["merge_latency_us"].push_back(elapsed_ns(start, now_ns()) / 1e3);
+                                for (size_t index = begin; index < end; ++index) {
+                                    observer.receive(operations[index % replica_count][index / replica_count]);
+                                }
+                                samples["merge_latency_us"].push_back(elapsed_ns(start, now_ns()) / 1e3 /
+                                                                      static_cast<double>(end - begin));
                             }
                         }
 

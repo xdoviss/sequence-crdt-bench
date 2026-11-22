@@ -1,6 +1,7 @@
-// how long single operations take, depending on document size
+// how long operations take, depending on document size
 //
-// warmup at first (not measured) and then every op is timed on its own.
+// warmup at first (not measured). operations are timed in batches of `batch_ops` and every sample is the time
+// per operation of one batch, because one operation is often shorter than the clock step (100 ns on Windows).
 // every repetition starts again from a new copy of the doc
 #include <algorithm>
 #include <map>
@@ -21,6 +22,34 @@ double microseconds_since(int64_t start_ns) { return static_cast<double>(now_ns(
 
 double average(double total, size_t count) { return count ? total / static_cast<double>(count) : 0; }
 
+// runs operations 0 .. count - 1, split into batches of about `batch` operations
+template <class Run>
+void time_operations(size_t count, size_t batch, std::vector<double>& batched, std::vector<double>* single,
+                     Run run) {
+    const size_t batches = std::max<size_t>(1, count / std::max<size_t>(1, batch));
+    for (size_t number = 0; number < batches; ++number) {
+        const size_t begin = number * count / batches;
+        const size_t end = (number + 1) * count / batches;
+        if (begin == end) {
+            continue;
+        }
+
+        if (single && number % 2 == 1) {
+            for (size_t index = begin; index < end; ++index) {
+                int64_t start = now_ns();
+                run(index);
+                single->push_back(microseconds_since(start));
+            }
+        } else {
+            int64_t start = now_ns();
+            for (size_t index = begin; index < end; ++index) {
+                run(index);
+            }
+            batched.push_back(microseconds_since(start) / static_cast<double>(end - begin));
+        }
+    }
+}
+
 }  // namespace
 
 int run_micro(const ExperimentSetup& setup) {
@@ -32,6 +61,7 @@ int run_micro(const ExperimentSetup& setup) {
     const size_t repetitions = static_cast<size_t>(config.get_int(section, "repetitions", 5));
     const size_t operations_per_repetition = static_cast<size_t>(config.get_int(section, "ops_per_repetition", 1000));
     const size_t warmup_operations = static_cast<size_t>(config.get_int(section, "warmup_ops", 200));
+    const size_t batch = static_cast<size_t>(config.get_int(section, "batch_ops", 25));
     const size_t lookup_samples = static_cast<size_t>(config.get_int(section, "lookup_samples", 20000));
     const size_t traversal_repetitions = static_cast<size_t>(config.get_int(section, "traversal_repetitions", 10));
     const size_t serialization_repetitions =
@@ -108,27 +138,27 @@ int run_micro(const ExperimentSetup& setup) {
                 }
                 const size_t warmup_log_size = log.size();
 
-                // insertions
+                // insertions, positions drawn before timing
+                std::vector<size_t> positions;
+                std::vector<Value> values;
                 for (size_t count = 0; count < operations_per_repetition; ++count) {
-                    size_t position = random.below(local->size() + 1);
-                    Value value = static_cast<Value>('a' + random.below(26));
-
-                    int64_t start = now_ns();
-                    Operation operation = local->insert(position, value);
-                    samples["insert_latency_us"].push_back(microseconds_since(start));
-                    log.push_back(std::move(operation));
+                    positions.push_back(random.below(local->size() + count + 1));
+                    values.push_back(static_cast<Value>('a' + random.below(26)));
                 }
+                time_operations(positions.size(), batch, samples["insert_latency_us"],
+                                &samples["insert_single_us"], [&](size_t index) {
+                                    log.push_back(local->insert(positions[index], values[index]));
+                                });
 
-                //  loookups by position
+                // lookups by position
                 const size_t lookups_per_repetition = std::max<size_t>(1, lookup_samples / repetitions);
+                positions.clear();
                 for (size_t count = 0; count < lookups_per_repetition && local->size() > 0; ++count) {
-                    size_t position = random.below(local->size());
-
-                    int64_t start = now_ns();
-                    auto value = local->lookup(position);
-                    samples["lookup_pos_us"].push_back(microseconds_since(start));
-                    do_not_optimize(value);
+                    positions.push_back(random.below(local->size()));
                 }
+                time_operations(positions.size(), batch, samples["lookup_pos_us"], nullptr, [&](size_t index) {
+                    do_not_optimize(local->lookup(positions[index]));
+                });
 
                 // lookups by ID
                 std::vector<ElementId> ids;
@@ -139,12 +169,10 @@ int run_micro(const ExperimentSetup& setup) {
                 for (const auto& id : ids) {
                     id_bytes += static_cast<double>(id.size());
                     ++id_count;
-
-                    int64_t start = now_ns();
-                    auto value = local->lookup_id(id);
-                    samples["lookup_id_us"].push_back(microseconds_since(start));
-                    do_not_optimize(value);
                 }
+                time_operations(ids.size(), batch, samples["lookup_id_us"], nullptr, [&](size_t index) {
+                    do_not_optimize(local->lookup_id(ids[index]));
+                });
 
                 // reading the doc
                 for (size_t count = 0; count < traversal_repetitions; ++count) {
@@ -155,61 +183,70 @@ int run_micro(const ExperimentSetup& setup) {
                 }
 
                 // deletes
-                for (size_t count = 0; count < operations_per_repetition && local->size() > 0; ++count) {
-                    size_t position = random.below(local->size());
-
-                    int64_t start = now_ns();
-                    Operation operation = local->erase(position);
-                    samples["delete_latency_us"].push_back(microseconds_since(start));
-                    log.push_back(std::move(operation));
+                positions.clear();
+                for (size_t count = 0; count < operations_per_repetition && count < local->size(); ++count) {
+                    positions.push_back(random.below(local->size() - count));
                 }
+                time_operations(positions.size(), batch, samples["delete_latency_us"],
+                                &samples["delete_single_us"], [&](size_t index) {
+                                    log.push_back(local->erase(positions[index]));
+                                });
 
                 // encoding and decoding single op messages
-                std::vector<Operation> decoded;
-                decoded.reserve(log.size());
+                const size_t measured = log.size() - warmup_log_size;
+                std::vector<Bytes> messages(log.size());
+                std::vector<WireStats> wire_stats(log.size());
+                std::vector<Operation> decoded(log.size());
                 for (size_t index = 0; index < log.size(); ++index) {
                     log[index].sequence_number = index + 1;
                     log[index].origin = 1;
+                }
+                auto encode = [&](size_t index) {
+                    ByteWriter writer(messages[index]);
+                    encode_operation(*local, log[index], writer, &wire_stats[index]);
+                };
+                auto decode = [&](size_t index) {
+                    ByteReader reader(messages[index]);
+                    decoded[index] = decode_operation(*remote, reader);
+                };
+                for (size_t index = 0; index < warmup_log_size; ++index) {
+                    encode(index);
+                    decode(index);
+                }
+                time_operations(measured, batch, samples["op_encode_us"], nullptr, [&](size_t index) {
+                    encode(warmup_log_size + index);
+                });
+                time_operations(measured, batch, samples["op_decode_us"], nullptr, [&](size_t index) {
+                    decode(warmup_log_size + index);
+                });
 
-                    Bytes bytes;
-                    ByteWriter writer(bytes);
-                    WireStats wire_stats;
-                    int64_t start = now_ns();
-                    encode_operation(*local, log[index], writer, &wire_stats);
-                    double encode_us = microseconds_since(start);
-
-                    ByteReader reader(bytes);
-                    start = now_ns();
-                    Operation operation = decode_operation(*remote, reader);
-                    double decode_us = microseconds_since(start);
-
-                    if (index >= warmup_log_size) {
-                        samples["op_encode_us"].push_back(encode_us);
-                        samples["op_decode_us"].push_back(decode_us);
-                        if (log[index].kind == OperationKind::Insert) {
-                            insert_body_bytes += static_cast<double>(wire_stats.body_bytes);
-                            insert_wire_bytes += static_cast<double>(wire_stats.total());
-                            ++insert_count;
-                        } else {
-                            delete_body_bytes += static_cast<double>(wire_stats.body_bytes);
-                            ++delete_count;
-                        }
+                for (size_t index = warmup_log_size; index < log.size(); ++index) {
+                    if (log[index].kind == OperationKind::Insert) {
+                        insert_body_bytes += static_cast<double>(wire_stats[index].body_bytes);
+                        insert_wire_bytes += static_cast<double>(wire_stats[index].total());
+                        ++insert_count;
+                    } else {
+                        delete_body_bytes += static_cast<double>(wire_stats[index].body_bytes);
+                        ++delete_count;
                     }
-                    decoded.push_back(std::move(operation));
                 }
 
-                // merges, where the remote replica applies every operation, each one timed
-                for (size_t index = 0; index < decoded.size(); ++index) {
-                    int64_t start = now_ns();
-                    ApplyStatus status = remote->apply(decoded[index]);
-                    double elapsed_us = microseconds_since(start);
-
-                    if (index >= warmup_log_size) 
-                        samples["merge_remote_op_us"].push_back(elapsed_us);
-
-                    if (status != ApplyStatus::Applied) {
-                        print_progress("  warning: remote apply status %s\n", to_string(status).c_str());
+                // merges, where the remote replica applies every operation
+                size_t not_applied = 0;
+                auto apply = [&](size_t index) {
+                    if (remote->apply(decoded[index]) != ApplyStatus::Applied) {
+                        ++not_applied;
                     }
+                };
+                for (size_t index = 0; index < warmup_log_size; ++index) {
+                    apply(index);
+                }
+                time_operations(measured, batch, samples["merge_remote_op_us"], &samples["merge_remote_single_us"],
+                                [&](size_t index) {
+                                    apply(warmup_log_size + index);
+                                });
+                if (not_applied > 0) {
+                    print_progress("  warning: %zu remote operations were not applied\n", not_applied);
                 }
 
                 if (remote->traverse() != local->traverse())
@@ -245,8 +282,10 @@ int run_micro(const ExperimentSetup& setup) {
                 latency_csv.row(row);
             }
 
+            // from the median batch, so one stalled batch does not change it
             auto operations_per_second = [&](const char* metric) {
-                return summaries.count(metric) && summaries[metric].mean > 0 ? 1e6 / summaries[metric].mean : 0.0;
+                return summaries.count(metric) && summaries[metric].median > 0 ? 1e6 / summaries[metric].median
+                                                                                : 0.0;
             };
 
             const double size = static_cast<double>(document_size);

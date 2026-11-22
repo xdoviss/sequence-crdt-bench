@@ -53,6 +53,8 @@ int print_environment() {
               << "logical cores: " << environment.logical_cores << "\n"
               << "ram:           " << (environment.total_ram_bytes >> 20) << " MiB\n"
               << "time (UTC):    " << environment.timestamp_utc << "\n"
+              << "timer:         " << environment.timer_resolution_ns << " ns resolution, "
+              << environment.timer_overhead_ns << " ns per call\n"
               << "heap hook:     " << heap_tracker::hook_description() << "\n";
 
     return 0;
