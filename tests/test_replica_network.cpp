@@ -34,6 +34,42 @@ void expect_converged(const SimResult& result, const SimConfig& config) {
 
 }  // namespace
 
+// dependencies are sent as a delta (only entries that changed since the previous operation),
+// and a receiver still holds an operation back until everything it causally depends on is applied
+TEST(replica_dependency_delta_keeps_causal_order) {
+    for (Algorithm algorithm : all_algorithms()) {
+        test_framework::context() = to_string(algorithm);
+        auto make = [&](ReplicaId id) {
+            return std::make_unique<Replica>(id, make_crdt(algorithm, id), DeliveryMode::Causal);
+        };
+        auto a = make(1), b = make(2), c = make(3);
+
+        Operation b1 = b->insert(0, 'b');
+        a->receive(b1);
+        Operation a1 = a->insert(1, 'x'); // has seen b1 -> depends on (2, 1)
+        Operation a2 = a->insert(2, 'y'); // nothing new since a1 -> no dependencies
+        CHECK_EQ(a1.dependencies.size(), size_t{1});
+        CHECK_EQ(a1.dependencies[0].replica, ReplicaId{2});
+        CHECK_EQ(a1.dependencies[0].count, uint64_t{1});
+        CHECK(a2.dependencies.empty());
+
+        // c receives a2 and a1 before b1, a2 waits for a1 (sequence order), a1 waits for b1
+        CHECK_EQ(c->receive(a2).buffered, size_t{1});
+        CHECK_EQ(c->receive(a1).buffered, size_t{1});
+        CHECK_EQ(c->receive(b1).applied.size(), size_t{3});
+        CHECK(c->crdt().traverse() == a->crdt().traverse());
+        CHECK(c->check_causal_invariants().empty());
+
+        // b hears, its next operation lists just that one new entry
+        b->receive(a1);
+        b->receive(a2);
+        Operation b2 = b->insert(0, 'z');
+        CHECK_EQ(b2.dependencies.size(), size_t{1});
+        CHECK_EQ(b2.dependencies[0].replica, ReplicaId{1});
+        CHECK_EQ(b2.dependencies[0].count, uint64_t{2});
+    }
+}
+
 TEST(network_default_scenario_converges) {
     for (Algorithm algorithm : all_algorithms()) {
         test_framework::context() = to_string(algorithm);

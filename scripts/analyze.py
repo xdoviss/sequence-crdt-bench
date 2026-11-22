@@ -435,14 +435,15 @@ def network_simulations():
     add_table("Network scenarios", data,
               ["scenario", "algorithm", "converged", "propagation_ms_mean", "propagation_ms_median",
                "propagation_ms_p95", "propagation_ms_p99", "network_delay_ms_mean", "causal_wait_ms_mean",
-               "settle_time_ms", "messages", "retransmissions", "bytes_per_op_delivery", "avg_message_bytes",
-               "cpu_processing_ms"],
+               "settle_time_ms", "messages", "retransmissions", "bytes_per_op_delivery", "payload_bytes_per_op",
+               "avg_message_bytes", "cpu_processing_ms"],
               ["scenario", "algorithm", "conv", "prop mean", "prop p50", "prop p95", "prop p99", "net delay",
-               "causal wait", "settle ms", "messages", "retx", "B/op", "avg msg B", "CPU ms"],
+               "causal wait", "settle ms", "messages", "retx", "B/op", "payload B/op", "avg msg B", "CPU ms"],
               note="Synchronization delay (virtual ms) is reported separately from network transmission delay and "
                    "from local processing (wall-clock CPU).\n\n")
     
-    findings["network.bytes_per_op"] = best(data, "scenario", "bytes_per_op_delivery")
+    # algorithms are ranked on the CRDT payload, the envelope is identical for every algorithm
+    findings["network.bytes_per_op"] = best(data, "scenario", "payload_bytes_per_op")
     findings["network.cpu_processing_ms"] = best(data, "scenario", "cpu_processing_ms")
 
 
@@ -498,7 +499,8 @@ def replica_count_simulations():
     add_table("Scalability: replica count (network simulation)", data,
               ["pattern", "replicas", "algorithm", "converged", "settle_time_ms", "propagation_ms_mean",
                "propagation_ms_p99", "causal_wait_ms_mean", "remote_apply_us_mean", "remote_apply_us_p99",
-               "cpu_processing_ms", "bytes_per_op_delivery", "envelope_bytes_per_op", "mem_per_replica_bytes"])
+               "cpu_processing_ms", "bytes_per_op_delivery", "envelope_bytes_per_op", "payload_bytes_per_op",
+               "mem_per_replica_bytes"])
     
     for pattern in patterns:
         rows = data[data.pattern == pattern]

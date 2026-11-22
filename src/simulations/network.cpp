@@ -207,10 +207,12 @@ private:
         for (size_t count = 0; count < burst; ++count) {
             Edit edit = generators_[sender].next(replica.crdt().size());
 
+            // only the algorithms own work is timed, the envelope is the same for all algorithms
             int64_t start = now_ns();
-            Operation operation =
-                edit.kind == OperationKind::Insert ? replica.insert(edit.position, edit.value) : replica.erase(edit.position);
+            Operation unstamped = edit.kind == OperationKind::Insert ? replica.crdt().insert(edit.position, edit.value)
+                                                                     : replica.crdt().erase(edit.position);
             double elapsed_ns = static_cast<double>(now_ns() - start);
+            Operation operation = replica.stamp(std::move(unstamped));
 
             totals_.cpu_local_ns += elapsed_ns;
             local_edit_us_.add(elapsed_ns / 1e3);

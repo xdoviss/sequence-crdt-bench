@@ -15,21 +15,35 @@ void Replica::make_room_for(ReplicaId replica) {
     if (replica < delivered_.size()) return;
 
     delivered_.resize(replica + 1, 0);
+    is_changed_.resize(replica + 1, 0);
     early_.resize(replica + 1);
     out_of_order_seen_.resize(replica + 1);
 }
 
-// fills in the envelope of a local edit w/ who made it, its number and what it
-// depends on (aka everything we have applied from other replicas so far)
+// remembers that the version vector entry of `replica` moved forward since last stamp
+void Replica::mark_changed(ReplicaId replica) {
+    if (replica == id_ || is_changed_[replica]) return;
+    is_changed_[replica] = 1;
+    changed_.push_back(replica);
+}
+
+// fills in the envelope of a local edit w/ who made it, its number and what it depends on.
+// only the entries that changed since previous operation are sent
 Operation Replica::stamp(Operation operation) {
     operation.origin = id_;
     operation.dependencies.clear();
-    for (ReplicaId replica = 0; replica < delivered_.size(); ++replica) {
-        if (replica != id_ && delivered_[replica] > 0) operation.dependencies.push_back(Dependency{replica, delivered_[replica]});
+    std::sort(changed_.begin(), changed_.end());  // deterministic order on the wire
+    for (ReplicaId replica : changed_) {
+        operation.dependencies.push_back(Dependency{replica, delivered_[replica]});
+        is_changed_[replica] = 0;
     }
 
+    changed_.clear();
+
     operation.sequence_number = ++delivered_[id_];
-    if (keep_history_) history_.push_back(operation);
+    if (keep_history_) 
+        history_.push_back(operation);
+
     return operation;
 }
 
@@ -52,6 +66,7 @@ void Replica::deliver(const Operation& operation, ReceiveOutcome& outcome) {
     if (crdt_->apply(operation) == ApplyStatus::Rejected) outcome.rejected++;
 
     delivered_[operation.origin] = std::max(delivered_[operation.origin], operation.sequence_number);
+    mark_changed(operation.origin);
     outcome.applied.push_back({operation.origin, operation.sequence_number});
 }
 
@@ -98,6 +113,7 @@ ReceiveOutcome Replica::receive_direct(const Operation& operation) {
     while (seen.count(delivered + 1)) {
         seen.erase(delivered + 1);
         delivered++;
+        mark_changed(operation.origin);
     }
     outcome.applied.push_back({operation.origin, operation.sequence_number});
     return outcome;

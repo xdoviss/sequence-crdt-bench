@@ -5,6 +5,11 @@
 // too early. local edits are stamped with (origin, sequence number, dependencies).
 // an operation from another replica is handed to the CRDT only once everything it
 // depends on has been applied ("causal delivery"); duplicates are dropped.
+//
+// dependencies are sent as a delta, only the version vector entries that changed since
+// this replica's previous operation. thats good enough, because operations of one origin are
+// applied in sequence order.
+//
 // in "direct" mode causal ordering is skipped (duplicates are still dropped), to test
 // how the algorithms themselves cope with operations that arrive too early.
 #pragma once
@@ -42,6 +47,11 @@ public:
     Operation insert(size_t position, Value value);
     Operation erase(size_t position);
 
+    // fills in the envelope of an operation made directly on crdt(). insert()/erase() are
+    // crdt().insert()/erase() followed by this, the simulator calls the two halves separately
+    // so that it times only the algorithm, not the (algorithm independent) envelope
+    Operation stamp(Operation operation);
+
     // an operation from another replica (it may be a duplicate or arrive too early).
     ReceiveOutcome receive(const Operation& operation);
 
@@ -57,13 +67,15 @@ private:
     DeliveryMode mode_;
     bool keep_history_;
     std::vector<uint64_t> delivered_;                    // version vector: operations applied per replica
+    std::vector<ReplicaId> changed_;                     // entries of delivered_ that moved since our last stamp
+    std::vector<uint8_t> is_changed_;                    // 1 if the replica is already listed in changed_
     std::vector<std::map<uint64_t, Operation>> early_;   // per origin, by sequence number
     std::vector<std::set<uint64_t>> out_of_order_seen_;  // direct mode: sequence numbers applied ahead of order
     size_t buffered_count_ = 0;
     std::vector<Operation> history_;
 
     void make_room_for(ReplicaId replica);
-    Operation stamp(Operation operation);
+    void mark_changed(ReplicaId replica);
     bool is_ready(const Operation& operation) const;
     void deliver(const Operation& operation, ReceiveOutcome& outcome);
     void deliver_buffered(ReceiveOutcome& outcome);

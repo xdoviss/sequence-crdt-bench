@@ -32,7 +32,7 @@ struct Operation {
     OperationKind kind = OperationKind::Insert;
     ReplicaId origin = 0; // replica that originated the edit
     uint64_t sequence_number = 0; // how many edits has this replica made
-    std::vector<Dependency> dependencies; // what it saw from other replicas
+    std::vector<Dependency> dependencies; // what it saw from other replicas since the origin's previous operation
     std::shared_ptr<const OperationBody> body;
 };
 
