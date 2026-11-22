@@ -9,7 +9,7 @@
   "convergence_violations": 0,
   "invariant_checks": 5563,
   "invariant_violations": 0,
-  "duration_s": 3.30285,
+  "duration_s": 2.41146,
   "compiler": "MSVC 195237029, C++ 199711",
   "os": "Windows 10.0 build 26300",
   "failures": []

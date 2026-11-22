@@ -2,7 +2,7 @@
  "micro.insert_latency_us.median": {
   "1000": {
    "best": "RGA",
-   "value": 0.292,
+   "value": 0.272,
    "ranking": [
     "RGA",
     "Logoot",
@@ -13,7 +13,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 0.452,
+   "value": 0.332,
    "ranking": [
     "RGA",
     "Logoot",
@@ -24,23 +24,23 @@
   },
   "100000": {
    "best": "RGA",
-   "value": 0.92,
+   "value": 0.764,
    "ranking": [
     "RGA",
     "Logoot",
+    "LSEQ",
     "Treedoc",
-    "WOOT",
-    "LSEQ"
+    "WOOT"
    ]
   },
   "1000000": {
    "best": "RGA",
-   "value": 1.872,
+   "value": 1.56,
    "ranking": [
     "RGA",
+    "Logoot",
     "Treedoc",
     "LSEQ",
-    "Logoot",
     "WOOT"
    ]
   }
@@ -59,7 +59,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 0.5,
+   "value": 0.3,
    "ranking": [
     "RGA",
     "Logoot",
@@ -70,23 +70,23 @@
   },
   "100000": {
    "best": "RGA",
-   "value": 0.9,
+   "value": 0.7,
    "ranking": [
     "RGA",
     "Logoot",
-    "WOOT",
     "LSEQ",
-    "Treedoc"
+    "Treedoc",
+    "WOOT"
    ]
   },
   "1000000": {
    "best": "RGA",
-   "value": 1.9,
+   "value": 1.5,
    "ranking": [
     "RGA",
+    "Logoot",
     "Treedoc",
     "LSEQ",
-    "Logoot",
     "WOOT"
    ]
   }
@@ -94,7 +94,7 @@
  "micro.delete_latency_us.median": {
   "1000": {
    "best": "WOOT",
-   "value": 0.172,
+   "value": 0.144,
    "ranking": [
     "WOOT",
     "RGA",
@@ -105,32 +105,32 @@
   },
   "10000": {
    "best": "WOOT",
-   "value": 0.264,
+   "value": 0.188,
    "ranking": [
     "WOOT",
     "RGA",
-    "LSEQ",
     "Logoot",
+    "LSEQ",
     "Treedoc"
    ]
   },
   "100000": {
    "best": "WOOT",
-   "value": 0.58,
+   "value": 0.312,
    "ranking": [
     "WOOT",
     "RGA",
-    "LSEQ",
     "Logoot",
+    "LSEQ",
     "Treedoc"
    ]
   },
   "1000000": {
-   "best": "WOOT",
-   "value": 1.634,
+   "best": "RGA",
+   "value": 1.298,
    "ranking": [
-    "WOOT",
     "RGA",
+    "WOOT",
     "Treedoc",
     "Logoot",
     "LSEQ"
@@ -151,29 +151,29 @@
   },
   "10000": {
    "best": "WOOT",
-   "value": 0.3,
+   "value": 0.2,
    "ranking": [
     "WOOT",
     "RGA",
-    "LSEQ",
     "Logoot",
+    "LSEQ",
     "Treedoc"
    ]
   },
   "100000": {
    "best": "WOOT",
-   "value": 0.5,
+   "value": 0.3,
    "ranking": [
     "WOOT",
     "RGA",
-    "LSEQ",
     "Logoot",
+    "LSEQ",
     "Treedoc"
    ]
   },
   "1000000": {
    "best": "WOOT",
-   "value": 1.6,
+   "value": 1.3,
    "ranking": [
     "WOOT",
     "RGA",
@@ -185,11 +185,11 @@
  },
  "micro.lookup_pos_us.median": {
   "1000": {
-   "best": "Logoot",
-   "value": 0.072,
+   "best": "LSEQ",
+   "value": 0.068,
    "ranking": [
-    "Logoot",
     "LSEQ",
+    "Logoot",
     "Treedoc",
     "WOOT",
     "RGA"
@@ -197,45 +197,45 @@
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.108,
+   "value": 0.104,
    "ranking": [
     "Treedoc",
     "Logoot",
     "LSEQ",
-    "RGA",
-    "WOOT"
+    "WOOT",
+    "RGA"
    ]
   },
   "100000": {
    "best": "Treedoc",
-   "value": 0.272,
+   "value": 0.22,
    "ranking": [
     "Treedoc",
     "Logoot",
+    "LSEQ",
     "WOOT",
-    "RGA",
-    "LSEQ"
+    "RGA"
    ]
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 0.788,
+   "value": 0.644,
    "ranking": [
     "Treedoc",
-    "Logoot",
+    "WOOT",
     "RGA",
-    "LSEQ",
-    "WOOT"
+    "Logoot",
+    "LSEQ"
    ]
   }
  },
  "micro.lookup_id_us.median": {
   "1000": {
-   "best": "WOOT",
-   "value": 0.032,
+   "best": "RGA",
+   "value": 0.024,
    "ranking": [
-    "WOOT",
     "RGA",
+    "WOOT",
     "Logoot",
     "Treedoc",
     "LSEQ"
@@ -243,7 +243,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 0.104,
+   "value": 0.032,
    "ranking": [
     "RGA",
     "WOOT",
@@ -254,7 +254,7 @@
   },
   "100000": {
    "best": "WOOT",
-   "value": 0.236,
+   "value": 0.16,
    "ranking": [
     "WOOT",
     "RGA",
@@ -265,7 +265,7 @@
   },
   "1000000": {
    "best": "RGA",
-   "value": 0.294,
+   "value": 0.216,
    "ranking": [
     "RGA",
     "WOOT",
@@ -278,7 +278,7 @@
  "micro.traversal_ms.median": {
   "1000": {
    "best": "Logoot",
-   "value": 0.01045,
+   "value": 0.0103,
    "ranking": [
     "Logoot",
     "LSEQ",
@@ -289,29 +289,29 @@
   },
   "10000": {
    "best": "WOOT",
-   "value": 0.1292,
+   "value": 0.1209,
    "ranking": [
     "WOOT",
-    "LSEQ",
     "Logoot",
+    "LSEQ",
     "RGA",
     "Treedoc"
    ]
   },
   "100000": {
-   "best": "Treedoc",
-   "value": 2.22775,
+   "best": "WOOT",
+   "value": 1.0484,
    "ranking": [
-    "Treedoc",
     "WOOT",
     "RGA",
+    "Treedoc",
     "Logoot",
     "LSEQ"
    ]
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 27.0602,
+   "value": 23.0425,
    "ranking": [
     "Treedoc",
     "WOOT",
@@ -324,29 +324,29 @@
  "micro.merge_remote_op_us.median": {
   "1000": {
    "best": "Treedoc",
-   "value": 0.124,
+   "value": 0.104,
    "ranking": [
     "Treedoc",
     "RGA",
     "Logoot",
-    "LSEQ",
-    "WOOT"
+    "WOOT",
+    "LSEQ"
    ]
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.196,
+   "value": 0.126,
    "ranking": [
     "Treedoc",
     "RGA",
     "Logoot",
-    "LSEQ",
-    "WOOT"
+    "WOOT",
+    "LSEQ"
    ]
   },
   "100000": {
    "best": "Treedoc",
-   "value": 0.496,
+   "value": 0.412,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -357,7 +357,7 @@
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 0.888,
+   "value": 0.76,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -373,37 +373,37 @@
    "value": 0.1,
    "ranking": [
     "Treedoc",
-    "RGA",
     "WOOT",
+    "RGA",
     "Logoot",
     "LSEQ"
    ]
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.2,
+   "value": 0.1,
    "ranking": [
     "Treedoc",
     "RGA",
-    "Logoot",
     "WOOT",
+    "Logoot",
     "LSEQ"
    ]
   },
   "100000": {
    "best": "Treedoc",
-   "value": 0.5,
+   "value": 0.4,
    "ranking": [
     "Treedoc",
+    "Logoot",
     "RGA",
     "WOOT",
-    "Logoot",
     "LSEQ"
    ]
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 0.9,
+   "value": 0.8,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -416,7 +416,7 @@
  "micro.merge_batch_ms.median": {
   "1000": {
    "best": "Treedoc",
-   "value": 0.2279,
+   "value": 0.2053,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -427,18 +427,18 @@
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.29715,
+   "value": 0.23595,
    "ranking": [
     "Treedoc",
     "RGA",
+    "Logoot",
     "WOOT",
-    "LSEQ",
-    "Logoot"
+    "LSEQ"
    ]
   },
   "100000": {
    "best": "Treedoc",
-   "value": 0.8734,
+   "value": 0.47895,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -449,7 +449,7 @@
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 1.94255,
+   "value": 1.53775,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -462,7 +462,7 @@
  "micro.op_encode_us.median": {
   "1000": {
    "best": "RGA",
-   "value": 0.36,
+   "value": 0.356,
    "ranking": [
     "RGA",
     "WOOT",
@@ -473,7 +473,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 0.368,
+   "value": 0.352,
    "ranking": [
     "RGA",
     "WOOT",
@@ -484,7 +484,7 @@
   },
   "100000": {
    "best": "RGA",
-   "value": 0.424,
+   "value": 0.398,
    "ranking": [
     "RGA",
     "WOOT",
@@ -494,12 +494,12 @@
    ]
   },
   "1000000": {
-   "best": "WOOT",
-   "value": 0.44,
+   "best": "RGA",
+   "value": 0.418,
    "ranking": [
+    "RGA",
     "WOOT",
     "Logoot",
-    "RGA",
     "LSEQ",
     "Treedoc"
    ]
@@ -508,7 +508,7 @@
  "micro.op_decode_us.median": {
   "1000": {
    "best": "RGA",
-   "value": 0.064,
+   "value": 0.06,
    "ranking": [
     "RGA",
     "WOOT",
@@ -519,7 +519,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 0.064,
+   "value": 0.06,
    "ranking": [
     "RGA",
     "WOOT",
@@ -530,7 +530,7 @@
   },
   "100000": {
    "best": "RGA",
-   "value": 0.068,
+   "value": 0.064,
    "ranking": [
     "RGA",
     "WOOT",
@@ -540,11 +540,11 @@
    ]
   },
   "1000000": {
-   "best": "WOOT",
-   "value": 0.076,
+   "best": "RGA",
+   "value": 0.06,
    "ranking": [
-    "WOOT",
     "RGA",
+    "WOOT",
     "Logoot",
     "LSEQ",
     "Treedoc"
@@ -554,7 +554,7 @@
  "micro.state_serialize_ms.median": {
   "1000": {
    "best": "Treedoc",
-   "value": 0.013,
+   "value": 0.0134,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -565,29 +565,29 @@
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.13575,
+   "value": 0.1174,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
+    "WOOT",
     "LSEQ"
    ]
   },
   "100000": {
    "best": "Treedoc",
-   "value": 1.9246,
+   "value": 1.23375,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
+    "WOOT",
     "LSEQ"
    ]
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 31.4104,
+   "value": 25.5175,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -600,7 +600,7 @@
  "micro.state_deserialize_ms.median": {
   "1000": {
    "best": "Treedoc",
-   "value": 0.06565,
+   "value": 0.06485,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -611,7 +611,7 @@
   },
   "10000": {
    "best": "Treedoc",
-   "value": 0.80995,
+   "value": 0.6515,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -622,18 +622,18 @@
   },
   "100000": {
    "best": "Treedoc",
-   "value": 9.38765,
+   "value": 7.13235,
    "ranking": [
     "Treedoc",
     "Logoot",
-    "LSEQ",
     "RGA",
+    "LSEQ",
     "WOOT"
    ]
   },
   "1000000": {
    "best": "Treedoc",
-   "value": 98.8101,
+   "value": 85.4789,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -738,7 +738,7 @@
  "merge.hotspot.mean": {
   "2": {
    "best": "Treedoc",
-   "value": 0.320667,
+   "value": 0.2105,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -749,18 +749,18 @@
   },
   "5": {
    "best": "Treedoc",
-   "value": 0.269133,
+   "value": 0.220267,
    "ranking": [
     "Treedoc",
-    "RGA",
     "Logoot",
+    "RGA",
     "LSEQ",
     "WOOT"
    ]
   },
   "10": {
    "best": "Treedoc",
-   "value": 0.2901,
+   "value": 0.2379,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -771,7 +771,7 @@
   },
   "20": {
    "best": "Treedoc",
-   "value": 0.307317,
+   "value": 0.241717,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -782,7 +782,7 @@
   },
   "50": {
    "best": "Treedoc",
-   "value": 0.386853,
+   "value": 0.25128,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -795,7 +795,7 @@
  "merge.uniform_mixed.mean": {
   "2": {
    "best": "Treedoc",
-   "value": 0.284333,
+   "value": 0.216167,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -806,75 +806,75 @@
   },
   "5": {
    "best": "Treedoc",
-   "value": 0.280733,
+   "value": 0.2152,
    "ranking": [
     "Treedoc",
     "RGA",
-    "Logoot",
     "WOOT",
+    "Logoot",
     "LSEQ"
    ]
   },
   "10": {
    "best": "Treedoc",
-   "value": 0.2539,
+   "value": 0.216933,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
+    "WOOT",
     "LSEQ"
    ]
   },
   "20": {
    "best": "Treedoc",
-   "value": 0.3118,
+   "value": 0.247383,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
+    "WOOT",
     "LSEQ"
    ]
   },
   "50": {
    "best": "Treedoc",
-   "value": 0.377247,
+   "value": 0.28842,
    "ranking": [
     "Treedoc",
     "RGA",
     "Logoot",
-    "LSEQ",
-    "WOOT"
+    "WOOT",
+    "LSEQ"
    ]
   }
  },
  "sync_cpu.hotspot": {
   "2": {
    "best": "RGA",
-   "value": 0.1833,
+   "value": 0.14633333333333334,
    "ranking": [
     "RGA",
     "Logoot",
-    "LSEQ",
     "Treedoc",
+    "LSEQ",
     "WOOT"
    ]
   },
   "5": {
    "best": "RGA",
-   "value": 1.7031333333333334,
+   "value": 1.452,
    "ranking": [
     "RGA",
     "Logoot",
-    "LSEQ",
     "Treedoc",
+    "LSEQ",
     "WOOT"
    ]
   },
   "10": {
    "best": "RGA",
-   "value": 9.106433333333333,
+   "value": 6.588633333333334,
    "ranking": [
     "RGA",
     "Logoot",
@@ -884,11 +884,11 @@
    ]
   },
   "20": {
-   "best": "Logoot",
-   "value": 38.58,
+   "best": "RGA",
+   "value": 31.0685,
    "ranking": [
-    "Logoot",
     "RGA",
+    "Logoot",
     "Treedoc",
     "LSEQ",
     "WOOT"
@@ -896,7 +896,7 @@
   },
   "50": {
    "best": "Logoot",
-   "value": 261.731,
+   "value": 221.66766666666663,
    "ranking": [
     "Logoot",
     "RGA",
@@ -909,43 +909,43 @@
  "sync_cpu.uniform_mixed": {
   "2": {
    "best": "RGA",
-   "value": 0.24936666666666665,
+   "value": 0.16086666666666669,
    "ranking": [
     "RGA",
-    "Treedoc",
     "WOOT",
+    "Treedoc",
     "Logoot",
     "LSEQ"
    ]
   },
   "5": {
-   "best": "Treedoc",
-   "value": 3.0824,
+   "best": "RGA",
+   "value": 1.6439666666666666,
    "ranking": [
-    "Treedoc",
     "RGA",
-    "Logoot",
+    "Treedoc",
     "WOOT",
+    "Logoot",
     "LSEQ"
    ]
   },
   "10": {
-   "best": "RGA",
-   "value": 11.756766666666666,
+   "best": "Treedoc",
+   "value": 8.266,
    "ranking": [
-    "RGA",
     "Treedoc",
+    "RGA",
     "Logoot",
     "WOOT",
     "LSEQ"
    ]
   },
   "20": {
-   "best": "Treedoc",
-   "value": 43.45876666666667,
+   "best": "RGA",
+   "value": 34.893499999999996,
    "ranking": [
-    "Treedoc",
     "RGA",
+    "Treedoc",
     "Logoot",
     "WOOT",
     "LSEQ"
@@ -953,13 +953,13 @@
   },
   "50": {
    "best": "RGA",
-   "value": 271.4073333333333,
+   "value": 204.90266666666665,
    "ranking": [
     "RGA",
     "Treedoc",
     "Logoot",
-    "LSEQ",
-    "WOOT"
+    "WOOT",
+    "LSEQ"
    ]
   }
  },
@@ -1150,7 +1150,7 @@
  "workloads.cpu_us_per_op": {
   "deletion_heavy": {
    "best": "Treedoc",
-   "value": 0.8586666666666666,
+   "value": 0.6771274666666667,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1161,7 +1161,7 @@
   },
   "end_insert": {
    "best": "Logoot",
-   "value": 0.7660805333333334,
+   "value": 0.6671047999999999,
    "ranking": [
     "Logoot",
     "RGA",
@@ -1172,7 +1172,7 @@
   },
   "front_insert": {
    "best": "RGA",
-   "value": 0.8935066666666667,
+   "value": 0.6753890666666666,
    "ranking": [
     "RGA",
     "LSEQ",
@@ -1183,7 +1183,7 @@
   },
   "hotspot": {
    "best": "RGA",
-   "value": 0.8021986666666666,
+   "value": 0.6693050666666667,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1194,29 +1194,29 @@
   },
   "mixed": {
    "best": "RGA",
-   "value": 1.0505439999999997,
+   "value": 0.8019165333333335,
    "ranking": [
     "RGA",
-    "Treedoc",
     "Logoot",
+    "Treedoc",
     "WOOT",
     "LSEQ"
    ]
   },
   "random_insert": {
    "best": "Treedoc",
-   "value": 1.2884453333333332,
+   "value": 1.0857066666666668,
    "ranking": [
     "Treedoc",
     "RGA",
     "Logoot",
-    "WOOT",
-    "LSEQ"
+    "LSEQ",
+    "WOOT"
    ]
   },
   "same_position": {
    "best": "RGA",
-   "value": 0.9696613333333334,
+   "value": 0.7559954666666668,
    "ranking": [
     "RGA",
     "LSEQ",
@@ -1227,18 +1227,18 @@
   },
   "sequential_typing": {
    "best": "RGA",
-   "value": 0.9346533333333332,
+   "value": 0.7093570666666668,
    "ranking": [
     "RGA",
     "Logoot",
-    "LSEQ",
     "WOOT",
+    "LSEQ",
     "Treedoc"
    ]
   },
   "uniform_mixed": {
    "best": "Treedoc",
-   "value": 1.1958266666666666,
+   "value": 0.7887018666666668,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1248,21 +1248,21 @@
    ]
   }
  },
- "workloads.mem_bytes_per_element": {
+ "workloads.mem_per_replica_bytes": {
   "deletion_heavy": {
    "best": "Treedoc",
-   "value": 0.0,
+   "value": 48.0,
    "ranking": [
     "Treedoc",
     "LSEQ",
     "Logoot",
-    "WOOT",
-    "RGA"
+    "RGA",
+    "WOOT"
    ]
   },
   "end_insert": {
    "best": "Treedoc",
-   "value": 89.41826666666667,
+   "value": 3129640.0,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -1273,7 +1273,7 @@
   },
   "front_insert": {
    "best": "Treedoc",
-   "value": 89.43476666666668,
+   "value": 3130216.0,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1284,7 +1284,7 @@
   },
   "hotspot": {
    "best": "Treedoc",
-   "value": 80.2396,
+   "value": 1633811.3333333333,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1295,7 +1295,7 @@
   },
   "mixed": {
    "best": "Treedoc",
-   "value": 79.044,
+   "value": 1773208.0,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -1306,7 +1306,7 @@
   },
   "random_insert": {
    "best": "Treedoc",
-   "value": 72.01356666666668,
+   "value": 2520474.6666666665,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -1317,7 +1317,7 @@
   },
   "same_position": {
    "best": "Treedoc",
-   "value": 64.3972,
+   "value": 2253901.3333333335,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1328,7 +1328,7 @@
   },
   "sequential_typing": {
    "best": "Treedoc",
-   "value": 73.4805,
+   "value": 2208384.0,
    "ranking": [
     "Treedoc",
     "Logoot",
@@ -1339,7 +1339,7 @@
   },
   "uniform_mixed": {
    "best": "Logoot",
-   "value": 84.0107,
+   "value": 847948.0,
    "ranking": [
     "Logoot",
     "Treedoc",
@@ -1532,7 +1532,7 @@
  "network.cpu_processing_ms": {
   "default": {
    "best": "Treedoc",
-   "value": 238.85299999999998,
+   "value": 194.94533333333334,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1543,7 +1543,7 @@
   },
   "fifo_wan": {
    "best": "Treedoc",
-   "value": 225.90133333333333,
+   "value": 190.90733333333333,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1554,7 +1554,7 @@
   },
   "high_jitter": {
    "best": "RGA",
-   "value": 291.5036666666667,
+   "value": 239.18566666666666,
    "ranking": [
     "RGA",
     "Treedoc",
@@ -1565,7 +1565,7 @@
   },
   "lan": {
    "best": "Treedoc",
-   "value": 220.97199999999998,
+   "value": 182.687,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1576,21 +1576,21 @@
   },
   "lossy_20": {
    "best": "Treedoc",
-   "value": 302.31166666666667,
+   "value": 250.36766666666668,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
+    "WOOT",
     "LSEQ"
    ]
   },
   "lossy_5": {
-   "best": "RGA",
-   "value": 272.031,
+   "best": "Treedoc",
+   "value": 230.17333333333332,
    "ranking": [
-    "RGA",
     "Treedoc",
+    "RGA",
     "WOOT",
     "Logoot",
     "LSEQ"
@@ -1598,7 +1598,7 @@
   },
   "wan": {
    "best": "Treedoc",
-   "value": 256.412,
+   "value": 218.33433333333335,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1610,11 +1610,11 @@
  },
  "scale_replicas.mixed.cpu": {
   "2": {
-   "best": "Logoot",
-   "value": 3.7882666666666664,
+   "best": "RGA",
+   "value": 3.1562333333333332,
    "ranking": [
-    "Logoot",
     "RGA",
+    "Logoot",
     "WOOT",
     "LSEQ",
     "Treedoc"
@@ -1622,7 +1622,7 @@
   },
   "5": {
    "best": "RGA",
-   "value": 26.6536,
+   "value": 20.671466666666664,
    "ranking": [
     "RGA",
     "Treedoc",
@@ -1633,7 +1633,7 @@
   },
   "10": {
    "best": "Treedoc",
-   "value": 110.81366666666668,
+   "value": 96.36166666666666,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1644,7 +1644,7 @@
   },
   "20": {
    "best": "Treedoc",
-   "value": 531.6736666666667,
+   "value": 435.41499999999996,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1655,11 +1655,11 @@
   },
   "50": {
    "best": "Treedoc",
-   "value": 5668.056666666666,
+   "value": 4397.426666666666,
    "ranking": [
     "Treedoc",
-    "WOOT",
     "RGA",
+    "WOOT",
     "Logoot",
     "LSEQ"
    ]
@@ -1668,18 +1668,29 @@
  "scale_replicas.mixed.apply_p99": {
   "2": {
    "best": "Treedoc",
-   "value": 1.6333333333333335,
+   "value": 0.7666666666666666,
    "ranking": [
     "Treedoc",
     "Logoot",
     "RGA",
-    "WOOT",
-    "LSEQ"
+    "LSEQ",
+    "WOOT"
    ]
   },
   "5": {
    "best": "Treedoc",
-   "value": 1.5666666666666667,
+   "value": 0.9333333333333332,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "LSEQ",
+    "Logoot",
+    "WOOT"
+   ]
+  },
+  "10": {
+   "best": "Treedoc",
+   "value": 1.2,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1688,20 +1699,9 @@
     "WOOT"
    ]
   },
-  "10": {
-   "best": "Treedoc",
-   "value": 1.7916666666666667,
-   "ranking": [
-    "Treedoc",
-    "RGA",
-    "Logoot",
-    "WOOT",
-    "LSEQ"
-   ]
-  },
   "20": {
    "best": "Treedoc",
-   "value": 2.3333333333333335,
+   "value": 1.4833333333333334,
    "ranking": [
     "Treedoc",
     "RGA",
@@ -1712,31 +1712,31 @@
   },
   "50": {
    "best": "Treedoc",
-   "value": 4.3999999999999995,
+   "value": 2.733333333333333,
    "ranking": [
     "Treedoc",
     "RGA",
-    "WOOT",
     "Logoot",
-    "LSEQ"
+    "LSEQ",
+    "WOOT"
    ]
   }
  },
  "scale_replicas.hotspot.cpu": {
   "2": {
    "best": "RGA",
-   "value": 2.9237333333333333,
+   "value": 2.4440666666666666,
    "ranking": [
     "RGA",
-    "Logoot",
     "WOOT",
+    "Logoot",
     "LSEQ",
     "Treedoc"
    ]
   },
   "5": {
    "best": "RGA",
-   "value": 19.317166666666665,
+   "value": 15.688166666666666,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1747,7 +1747,7 @@
   },
   "10": {
    "best": "RGA",
-   "value": 88.0521,
+   "value": 72.3428,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1758,7 +1758,7 @@
   },
   "20": {
    "best": "RGA",
-   "value": 400.78399999999993,
+   "value": 328.85766666666666,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1769,7 +1769,7 @@
   },
   "50": {
    "best": "RGA",
-   "value": 4402.3,
+   "value": 3301.9500000000003,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1782,7 +1782,7 @@
  "scale_replicas.hotspot.apply_p99": {
   "2": {
    "best": "RGA",
-   "value": 0.867,
+   "value": 0.6,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1793,7 +1793,7 @@
   },
   "5": {
    "best": "RGA",
-   "value": 1.2,
+   "value": 0.7833333333333333,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1804,7 +1804,7 @@
   },
   "10": {
    "best": "RGA",
-   "value": 1.5,
+   "value": 0.9,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1815,7 +1815,7 @@
   },
   "20": {
    "best": "RGA",
-   "value": 2.1999999999999997,
+   "value": 1.0,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1826,7 +1826,7 @@
   },
   "50": {
    "best": "RGA",
-   "value": 3.8333333333333335,
+   "value": 1.8333333333333333,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1839,18 +1839,18 @@
  "scale_ops.throughput": {
   "1000": {
    "best": "RGA",
-   "value": 1044350.0,
+   "value": 1425650.0,
    "ranking": [
     "RGA",
-    "WOOT",
     "Logoot",
-    "Treedoc",
-    "LSEQ"
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
    ]
   },
   "10000": {
    "best": "RGA",
-   "value": 940440.0,
+   "value": 1377170.0,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1861,7 +1861,7 @@
   },
   "100000": {
    "best": "RGA",
-   "value": 795474.0,
+   "value": 1060450.0,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1874,7 +1874,7 @@
  "intensity.throughput": {
   "20": {
    "best": "RGA",
-   "value": 1800656.6666666667,
+   "value": 2386340.0,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1885,7 +1885,7 @@
   },
   "100": {
    "best": "RGA",
-   "value": 1859116.6666666667,
+   "value": 2430686.6666666665,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1896,7 +1896,7 @@
   },
   "500": {
    "best": "RGA",
-   "value": 1835463.3333333333,
+   "value": 2383536.6666666665,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1907,7 +1907,7 @@
   },
   "2000": {
    "best": "RGA",
-   "value": 1720196.6666666667,
+   "value": 2313740.0,
    "ranking": [
     "RGA",
     "WOOT",
@@ -1918,7 +1918,7 @@
   },
   "10000": {
    "best": "RGA",
-   "value": 1567120.0,
+   "value": 2125406.6666666665,
    "ranking": [
     "RGA",
     "Logoot",
@@ -1939,7 +1939,7 @@
   "convergence_violations": 0,
   "invariant_checks": 5563,
   "invariant_violations": 0,
-  "duration_s": 3.30285,
+  "duration_s": 2.41146,
   "compiler": "MSVC 195237029, C++ 199711",
   "os": "Windows 10.0 build 26300",
   "failures": []
