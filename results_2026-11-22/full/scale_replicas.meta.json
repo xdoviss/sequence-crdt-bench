@@ -1,0 +1,23 @@
+{
+  "experiment": "scale_replicas",
+  "config_file": "configs\\full\\scale_replicas.ini",
+  "environment": {
+    "compiler": "MSVC 195237029, C++ 199711",
+    "build_type": "Release",
+    "cxx_flags": "/DWIN32 /D_WINDOWS /GR /EHsc (config-specific flags: see CMAKE_CXX_FLAGS_<CONFIG>)",
+    "os": "Windows 10.0 build 26300",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor              ",
+    "logical_cores": 12,
+    "total_ram_bytes": 17101778944,
+    "timestamp_utc": "2026-11-21T21:48:43Z",
+    "heap_hook": "off"
+  },
+  "config": {
+    "crdt": {"seed": "2026"},
+    "experiment": {"algorithms": "woot, logoot, rga, lseq, treedoc", "initial_doc_size": "10000", "op_interval_ms": "50", "ops_per_replica": "1000", "patterns": "mixed, hotspot", "repetitions": "3", "replicas": "2, 5, 10, 20, 50", "scenarios": "default", "seed": "20261014"},
+    "meta": {"name": "scale_replicas", "type": "sim"},
+    "scenario.default": {"jitter": "exponential", "jitter_ms": "10", "latency_ms": "20", "loss_rate": "0", "max_batch_ops": "64", "reorder": "true", "retransmit": "true", "sync_interval_ms": "0"}
+  },
+  "failed_runs": "0",
+  "runs": "150"
+}

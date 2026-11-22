@@ -1,0 +1,20 @@
+{
+  "experiment": "micro",
+  "config_file": "configs\\full\\micro.ini",
+  "environment": {
+    "compiler": "MSVC 195237029, C++ 199711",
+    "build_type": "Release",
+    "cxx_flags": "/DWIN32 /D_WINDOWS /GR /EHsc (config-specific flags: see CMAKE_CXX_FLAGS_<CONFIG>)",
+    "os": "Windows 10.0 build 26300",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor              ",
+    "logical_cores": 12,
+    "total_ram_bytes": 17101778944,
+    "timestamp_utc": "2026-11-21T21:14:11Z",
+    "heap_hook": "off"
+  },
+  "config": {
+    "crdt": {"logoot_boundary": "65536", "lseq_base_bits": "4", "lseq_boundary": "10", "seed": "2026", "treedoc_gc": "true"},
+    "meta": {"name": "micro", "type": "micro"},
+    "micro": {"algorithms": "woot, logoot, rga, lseq, treedoc", "doc_sizes": "1000, 10000, 100000, 1000000", "lookup_samples": "50000", "ops_per_repetition": "1000", "repetitions": "10", "seed": "20261014", "serialization_repetitions": "10", "traversal_repetitions": "20", "warmup_ops": "500"}
+  }
+}
