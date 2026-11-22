@@ -1,0 +1,1947 @@
+{
+ "micro.insert_latency_us.median": {
+  "1000": {
+   "best": "RGA",
+   "value": 0.292,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 0.452,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 0.92,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "RGA",
+   "value": 1.872,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "LSEQ",
+    "Logoot",
+    "WOOT"
+   ]
+  }
+ },
+ "micro.insert_single_us.median": {
+  "1000": {
+   "best": "RGA",
+   "value": 0.3,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 0.5,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 0.9,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "1000000": {
+   "best": "RGA",
+   "value": 1.9,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "LSEQ",
+    "Logoot",
+    "WOOT"
+   ]
+  }
+ },
+ "micro.delete_latency_us.median": {
+  "1000": {
+   "best": "WOOT",
+   "value": 0.172,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "WOOT",
+   "value": 0.264,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "LSEQ",
+    "Logoot",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "WOOT",
+   "value": 0.58,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "LSEQ",
+    "Logoot",
+    "Treedoc"
+   ]
+  },
+  "1000000": {
+   "best": "WOOT",
+   "value": 1.634,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.delete_single_us.median": {
+  "1000": {
+   "best": "WOOT",
+   "value": 0.2,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "WOOT",
+   "value": 0.3,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "LSEQ",
+    "Logoot",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "WOOT",
+   "value": 0.5,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "LSEQ",
+    "Logoot",
+    "Treedoc"
+   ]
+  },
+  "1000000": {
+   "best": "WOOT",
+   "value": 1.6,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.lookup_pos_us.median": {
+  "1000": {
+   "best": "Logoot",
+   "value": 0.072,
+   "ranking": [
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "WOOT",
+    "RGA"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.108,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 0.272,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "RGA",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 0.788,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "micro.lookup_id_us.median": {
+  "1000": {
+   "best": "WOOT",
+   "value": 0.032,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 0.104,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "100000": {
+   "best": "WOOT",
+   "value": 0.236,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "RGA",
+   "value": 0.294,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.traversal_ms.median": {
+  "1000": {
+   "best": "Logoot",
+   "value": 0.01045,
+   "ranking": [
+    "Logoot",
+    "LSEQ",
+    "WOOT",
+    "RGA",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "WOOT",
+   "value": 0.1292,
+   "ranking": [
+    "WOOT",
+    "LSEQ",
+    "Logoot",
+    "RGA",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 2.22775,
+   "ranking": [
+    "Treedoc",
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 27.0602,
+   "ranking": [
+    "Treedoc",
+    "WOOT",
+    "RGA",
+    "LSEQ",
+    "Logoot"
+   ]
+  }
+ },
+ "micro.merge_remote_op_us.median": {
+  "1000": {
+   "best": "Treedoc",
+   "value": 0.124,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.196,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 0.496,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 0.888,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.merge_remote_single_us.median": {
+  "1000": {
+   "best": "Treedoc",
+   "value": 0.1,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.2,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 0.5,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 0.9,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.merge_batch_ms.median": {
+  "1000": {
+   "best": "Treedoc",
+   "value": 0.2279,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.29715,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Logoot"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 0.8734,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 1.94255,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.op_encode_us.median": {
+  "1000": {
+   "best": "RGA",
+   "value": 0.36,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 0.368,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 0.424,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "1000000": {
+   "best": "WOOT",
+   "value": 0.44,
+   "ranking": [
+    "WOOT",
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "Treedoc"
+   ]
+  }
+ },
+ "micro.op_decode_us.median": {
+  "1000": {
+   "best": "RGA",
+   "value": 0.064,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 0.064,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 0.068,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "1000000": {
+   "best": "WOOT",
+   "value": 0.076,
+   "ranking": [
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  }
+ },
+ "micro.state_serialize_ms.median": {
+  "1000": {
+   "best": "Treedoc",
+   "value": 0.013,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.13575,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 1.9246,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 31.4104,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "micro.state_deserialize_ms.median": {
+  "1000": {
+   "best": "Treedoc",
+   "value": 0.06565,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10000": {
+   "best": "Treedoc",
+   "value": 0.80995,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "100000": {
+   "best": "Treedoc",
+   "value": 9.38765,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "1000000": {
+   "best": "Treedoc",
+   "value": 98.8101,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  }
+ },
+ "sizes.state_bytes_per_element": {
+  "1000": {
+   "best": "RGA",
+   "value": 4.879,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 4.9879,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 5.83498,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "RGA",
+   "value": 5.9835,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  }
+ },
+ "sizes.insert_op_body_bytes": {
+  "1000": {
+   "best": "RGA",
+   "value": 6.944,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 6.9894,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 8.8337,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "1000000": {
+   "best": "RGA",
+   "value": 8.9829,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "WOOT",
+    "LSEQ"
+   ]
+  }
+ },
+ "merge.hotspot.mean": {
+  "2": {
+   "best": "Treedoc",
+   "value": 0.320667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "5": {
+   "best": "Treedoc",
+   "value": 0.269133,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10": {
+   "best": "Treedoc",
+   "value": 0.2901,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "20": {
+   "best": "Treedoc",
+   "value": 0.307317,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "50": {
+   "best": "Treedoc",
+   "value": 0.386853,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "merge.uniform_mixed.mean": {
+  "2": {
+   "best": "Treedoc",
+   "value": 0.284333,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "5": {
+   "best": "Treedoc",
+   "value": 0.280733,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "10": {
+   "best": "Treedoc",
+   "value": 0.2539,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "20": {
+   "best": "Treedoc",
+   "value": 0.3118,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "50": {
+   "best": "Treedoc",
+   "value": 0.377247,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "sync_cpu.hotspot": {
+  "2": {
+   "best": "RGA",
+   "value": 0.1833,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "WOOT"
+   ]
+  },
+  "5": {
+   "best": "RGA",
+   "value": 1.7031333333333334,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "WOOT"
+   ]
+  },
+  "10": {
+   "best": "RGA",
+   "value": 9.106433333333333,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "20": {
+   "best": "Logoot",
+   "value": 38.58,
+   "ranking": [
+    "Logoot",
+    "RGA",
+    "Treedoc",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "50": {
+   "best": "Logoot",
+   "value": 261.731,
+   "ranking": [
+    "Logoot",
+    "RGA",
+    "Treedoc",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "sync_cpu.uniform_mixed": {
+  "2": {
+   "best": "RGA",
+   "value": 0.24936666666666665,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "5": {
+   "best": "Treedoc",
+   "value": 3.0824,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "10": {
+   "best": "RGA",
+   "value": 11.756766666666666,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "20": {
+   "best": "Treedoc",
+   "value": 43.45876666666667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "50": {
+   "best": "RGA",
+   "value": 271.4073333333333,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "memory.bulk.heap_per_element": {
+  "1000.0": {
+   "best": "Treedoc",
+   "value": 72.048,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10000.0": {
+   "best": "Treedoc",
+   "value": 72.0048,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "100000.0": {
+   "best": "Treedoc",
+   "value": 72.0005,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "1000000.0": {
+   "best": "Treedoc",
+   "value": 72.0,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  }
+ },
+ "memory.growth.heap_per_op": {
+  "deletion_heavy": {
+   "best": "Treedoc",
+   "value": 0.00048,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "end_insert": {
+   "best": "Treedoc",
+   "value": 72.0019,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "front_insert": {
+   "best": "Treedoc",
+   "value": 72.0019,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Logoot"
+   ]
+  },
+  "random_insert": {
+   "best": "Treedoc",
+   "value": 72.0019,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "sequential_typing": {
+   "best": "Treedoc",
+   "value": 57.8766,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "uniform_mixed": {
+   "best": "Logoot",
+   "value": 0.1856,
+   "ranking": [
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "RGA",
+    "WOOT"
+   ]
+  }
+ },
+ "memory.deletion.heap": {
+  "0.25": {
+   "best": "Logoot",
+   "value": 6300080.0,
+   "ranking": [
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "0.5": {
+   "best": "Logoot",
+   "value": 4200080.0,
+   "ranking": [
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "0.75": {
+   "best": "Logoot",
+   "value": 2100080.0,
+   "ranking": [
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "0.9": {
+   "best": "Logoot",
+   "value": 840080.0,
+   "ranking": [
+    "Logoot",
+    "LSEQ",
+    "Treedoc",
+    "RGA",
+    "WOOT"
+   ]
+  },
+  "1.0": {
+   "best": "Treedoc",
+   "value": 48.0,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  }
+ },
+ "memory.cycles.heap": {
+  "20.0": {
+   "best": "Logoot",
+   "value": 840308.0,
+   "ranking": [
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  }
+ },
+ "workloads.cpu_us_per_op": {
+  "deletion_heavy": {
+   "best": "Treedoc",
+   "value": 0.8586666666666666,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "end_insert": {
+   "best": "Logoot",
+   "value": 0.7660805333333334,
+   "ranking": [
+    "Logoot",
+    "RGA",
+    "LSEQ",
+    "WOOT",
+    "Treedoc"
+   ]
+  },
+  "front_insert": {
+   "best": "RGA",
+   "value": 0.8935066666666667,
+   "ranking": [
+    "RGA",
+    "LSEQ",
+    "WOOT",
+    "Treedoc",
+    "Logoot"
+   ]
+  },
+  "hotspot": {
+   "best": "RGA",
+   "value": 0.8021986666666666,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "mixed": {
+   "best": "RGA",
+   "value": 1.0505439999999997,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "random_insert": {
+   "best": "Treedoc",
+   "value": 1.2884453333333332,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "same_position": {
+   "best": "RGA",
+   "value": 0.9696613333333334,
+   "ranking": [
+    "RGA",
+    "LSEQ",
+    "WOOT",
+    "Logoot",
+    "Treedoc"
+   ]
+  },
+  "sequential_typing": {
+   "best": "RGA",
+   "value": 0.9346533333333332,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT",
+    "Treedoc"
+   ]
+  },
+  "uniform_mixed": {
+   "best": "Treedoc",
+   "value": 1.1958266666666666,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  }
+ },
+ "workloads.mem_bytes_per_element": {
+  "deletion_heavy": {
+   "best": "Treedoc",
+   "value": 0.0,
+   "ranking": [
+    "Treedoc",
+    "LSEQ",
+    "Logoot",
+    "WOOT",
+    "RGA"
+   ]
+  },
+  "end_insert": {
+   "best": "Treedoc",
+   "value": 89.41826666666667,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "front_insert": {
+   "best": "Treedoc",
+   "value": 89.43476666666668,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Logoot"
+   ]
+  },
+  "hotspot": {
+   "best": "Treedoc",
+   "value": 80.2396,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "mixed": {
+   "best": "Treedoc",
+   "value": 79.044,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "random_insert": {
+   "best": "Treedoc",
+   "value": 72.01356666666668,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "same_position": {
+   "best": "Treedoc",
+   "value": 64.3972,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Logoot"
+   ]
+  },
+  "sequential_typing": {
+   "best": "Treedoc",
+   "value": 73.4805,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "uniform_mixed": {
+   "best": "Logoot",
+   "value": 84.0107,
+   "ranking": [
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "RGA",
+    "WOOT"
+   ]
+  }
+ },
+ "workloads.payload_bytes_per_op": {
+  "deletion_heavy": {
+   "best": "RGA",
+   "value": 3.929266666666667,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "end_insert": {
+   "best": "RGA",
+   "value": 7.77588,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "front_insert": {
+   "best": "RGA",
+   "value": 6.388013333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Treedoc",
+    "Logoot"
+   ]
+  },
+  "hotspot": {
+   "best": "RGA",
+   "value": 6.199973333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "mixed": {
+   "best": "RGA",
+   "value": 6.319786666666666,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "random_insert": {
+   "best": "RGA",
+   "value": 7.440626666666667,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "same_position": {
+   "best": "RGA",
+   "value": 7.388013333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Treedoc",
+    "Logoot"
+   ]
+  },
+  "sequential_typing": {
+   "best": "RGA",
+   "value": 7.142533333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "Treedoc",
+    "LSEQ"
+   ]
+  },
+  "uniform_mixed": {
+   "best": "RGA",
+   "value": 5.02272,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "network.bytes_per_op": {
+  "default": {
+   "best": "RGA",
+   "value": 6.001666666666666,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "fifo_wan": {
+   "best": "RGA",
+   "value": 6.001633333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "high_jitter": {
+   "best": "RGA",
+   "value": 6.001683333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "lan": {
+   "best": "RGA",
+   "value": 6.57395,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "lossy_20": {
+   "best": "RGA",
+   "value": 6.001833333333334,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "lossy_5": {
+   "best": "RGA",
+   "value": 6.0014666666666665,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "wan": {
+   "best": "RGA",
+   "value": 6.001633333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Treedoc",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "network.cpu_processing_ms": {
+  "default": {
+   "best": "Treedoc",
+   "value": 238.85299999999998,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "fifo_wan": {
+   "best": "Treedoc",
+   "value": 225.90133333333333,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "high_jitter": {
+   "best": "RGA",
+   "value": 291.5036666666667,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "lan": {
+   "best": "Treedoc",
+   "value": 220.97199999999998,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "lossy_20": {
+   "best": "Treedoc",
+   "value": 302.31166666666667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "lossy_5": {
+   "best": "RGA",
+   "value": 272.031,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "wan": {
+   "best": "Treedoc",
+   "value": 256.412,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  }
+ },
+ "scale_replicas.mixed.cpu": {
+  "2": {
+   "best": "Logoot",
+   "value": 3.7882666666666664,
+   "ranking": [
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "5": {
+   "best": "RGA",
+   "value": 26.6536,
+   "ranking": [
+    "RGA",
+    "Treedoc",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "10": {
+   "best": "Treedoc",
+   "value": 110.81366666666668,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "20": {
+   "best": "Treedoc",
+   "value": 531.6736666666667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  },
+  "50": {
+   "best": "Treedoc",
+   "value": 5668.056666666666,
+   "ranking": [
+    "Treedoc",
+    "WOOT",
+    "RGA",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "scale_replicas.mixed.apply_p99": {
+  "2": {
+   "best": "Treedoc",
+   "value": 1.6333333333333335,
+   "ranking": [
+    "Treedoc",
+    "Logoot",
+    "RGA",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "5": {
+   "best": "Treedoc",
+   "value": 1.5666666666666667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "10": {
+   "best": "Treedoc",
+   "value": 1.7916666666666667,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "20": {
+   "best": "Treedoc",
+   "value": 2.3333333333333335,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ"
+   ]
+  },
+  "50": {
+   "best": "Treedoc",
+   "value": 4.3999999999999995,
+   "ranking": [
+    "Treedoc",
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ"
+   ]
+  }
+ },
+ "scale_replicas.hotspot.cpu": {
+  "2": {
+   "best": "RGA",
+   "value": 2.9237333333333333,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "5": {
+   "best": "RGA",
+   "value": 19.317166666666665,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10": {
+   "best": "RGA",
+   "value": 88.0521,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "20": {
+   "best": "RGA",
+   "value": 400.78399999999993,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "50": {
+   "best": "RGA",
+   "value": 4402.3,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  }
+ },
+ "scale_replicas.hotspot.apply_p99": {
+  "2": {
+   "best": "RGA",
+   "value": 0.867,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "Treedoc",
+    "LSEQ",
+    "WOOT"
+   ]
+  },
+  "5": {
+   "best": "RGA",
+   "value": 1.2,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10": {
+   "best": "RGA",
+   "value": 1.5,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "20": {
+   "best": "RGA",
+   "value": 2.1999999999999997,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "50": {
+   "best": "RGA",
+   "value": 3.8333333333333335,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  }
+ },
+ "scale_ops.throughput": {
+  "1000": {
+   "best": "RGA",
+   "value": 1044350.0,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "Treedoc",
+    "LSEQ"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 940440.0,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "100000": {
+   "best": "RGA",
+   "value": 795474.0,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "WOOT",
+    "LSEQ",
+    "Treedoc"
+   ]
+  }
+ },
+ "intensity.throughput": {
+  "20": {
+   "best": "RGA",
+   "value": 1800656.6666666667,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "100": {
+   "best": "RGA",
+   "value": 1859116.6666666667,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "500": {
+   "best": "RGA",
+   "value": 1835463.3333333333,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "2000": {
+   "best": "RGA",
+   "value": 1720196.6666666667,
+   "ranking": [
+    "RGA",
+    "WOOT",
+    "Logoot",
+    "LSEQ",
+    "Treedoc"
+   ]
+  },
+  "10000": {
+   "best": "RGA",
+   "value": 1567120.0,
+   "ranking": [
+    "RGA",
+    "Logoot",
+    "LSEQ",
+    "WOOT",
+    "Treedoc"
+   ]
+  }
+ },
+ "tests": {
+  "tests_total": 40,
+  "tests_passed": 40,
+  "tests_failed": 0,
+  "assertions": 248197,
+  "failed_assertions": 0,
+  "property_cases": 1620,
+  "convergence_checks": 420,
+  "convergence_violations": 0,
+  "invariant_checks": 5563,
+  "invariant_violations": 0,
+  "duration_s": 3.30285,
+  "compiler": "MSVC 195237029, C++ 199711",
+  "os": "Windows 10.0 build 26300",
+  "failures": []
+ }
+}

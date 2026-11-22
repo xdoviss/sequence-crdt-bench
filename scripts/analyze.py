@@ -397,12 +397,12 @@ def workload_simulations():
     
     data = average_runs(runs, ["pattern"])
     data["cpu_us_per_op"] = data.cpu_processing_ms * 1000 / (data.ops_total + data.remote_applications)
+    data.loc[data.final_doc_size < 100, "mem_bytes_per_element"] = float("nan")
     data = data.set_index("pattern").loc[list(dict.fromkeys(runs.pattern))].reset_index()  # keep the run order
 
     figure, axes = grid(2, 2, 13, 8)
     bars(axes[0][0], data, "pattern", "cpu_us_per_op", "CPU per operation (local + remote)", "µs", log=True)
-    bars(axes[0][1], data, "pattern", "mem_bytes_per_element", "Memory per visible element (per replica)", "bytes",
-         log=True)
+    bars(axes[0][1], data, "pattern", "mem_per_replica_bytes", "Memory per replica", "bytes", log=True)
     bars(axes[1][0], data, "pattern", "avg_id_depth", "Average identifier / tree depth", "levels", log=True)
     bars(axes[1][1], data, "pattern", "payload_bytes_per_op", "CRDT payload per delivered operation", "bytes",
          log=True)
@@ -412,12 +412,14 @@ def workload_simulations():
     data = ordered(data, ["pattern"])
     add_table("Workload patterns (network simulation)", data,
               ["pattern", "algorithm", "converged", "cpu_us_per_op", "remote_apply_us_mean", "remote_apply_us_p99",
-               "mem_bytes_per_element", "tombstones", "avg_id_depth", "max_id_depth", "payload_bytes_per_op",
-               "state_bytes", "processing_ops_per_sec"],
-              ["pattern", "algorithm", "conv", "CPU µs/op", "apply µs mean", "apply µs p99", "mem B/elem",
-               "tombstones", "avg depth", "max depth", "payload B/op", "snapshot B", "ops/s"])
-    
-    for value in ["cpu_us_per_op", "mem_bytes_per_element", "payload_bytes_per_op"]:
+               "mem_per_replica_bytes", "mem_bytes_per_element", "final_doc_size", "tombstones", "avg_id_depth",
+               "max_id_depth", "payload_bytes_per_op", "state_bytes", "processing_ops_per_sec"],
+              ["pattern", "algorithm", "conv", "CPU µs/op", "apply µs mean", "apply µs p99", "mem B/replica",
+               "mem B/elem", "final size", "tombstones", "avg depth", "max depth", "payload B/op", "snapshot B",
+               "ops/s"],
+              note="mem B/elem is left empty when the final document has fewer than 100 elements.\n\n")
+
+    for value in ["cpu_us_per_op", "mem_per_replica_bytes", "payload_bytes_per_op"]:
         findings[f"workloads.{value}"] = best(data, "pattern", value)
 
 
