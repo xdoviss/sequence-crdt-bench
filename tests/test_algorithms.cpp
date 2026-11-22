@@ -379,6 +379,39 @@ TEST(treedoc_paths_and_mini_node_children_like_paper) {
     for (auto& replica : replicas) CHECK_INVARIANTS(replica->crdt());
 }
 
+// appends and prepends grow the tree by several levels and fill the empty positions, on every
+// replica, concurrently, and garbage collection removes the empty nodes again
+TEST(treedoc_tree_growing_heuristic) {
+    auto replicas = make_replicas(Algorithm::Treedoc, 2, from_text("ab"));
+    std::vector<Operation> operations;
+    for (int count = 0; count < 300; ++count) {
+        operations.push_back(replicas[0]->insert(replicas[0]->crdt().size(), static_cast<Value>('x')));
+        operations.push_back(replicas[1]->insert(0, static_cast<Value>('y')));
+    }
+    for (auto& replica : replicas) {
+        for (auto& operation : operations) {
+            replica->receive(operation);
+        }
+    }
+    CHECK_CONVERGED(replicas);
+    CHECK_EQ(replicas[0]->crdt().size(), 602u);
+    CHECK(replicas[0]->crdt().get_structure_statistics().get("max_id_depth") < 60);
+    CHECK(replicas[0]->crdt().get_structure_statistics().get("placeholders") > 0);
+
+    std::vector<Operation> deletions;
+    while (replicas[1]->crdt().size() > 0) {
+        deletions.push_back(replicas[1]->erase(0));
+    }
+    for (auto& operation : deletions) {
+        replicas[0]->receive(operation);
+    }
+    CHECK_CONVERGED(replicas);
+    CHECK_EQ(replicas[0]->crdt().get_structure_statistics().get("stored_elements"), 0.0);
+    for (auto& replica : replicas) {
+        CHECK_INVARIANTS(replica->crdt());
+    }
+}
+
 TEST(ordering_rule_logoot_lseq_generate_between) {
     for (Algorithm algorithm : {Algorithm::Logoot, Algorithm::LSEQ}) {
         test_framework::context() = to_string(algorithm);
@@ -461,7 +494,8 @@ TEST(tombstone_handling_per_algorithm) {
 TEST(identifier_growth_characterization) {
     // when typing at the start Logoot IDs grow deep, BUT the per-depth 
     // strategy of LSEQ keeps them short
-    // Treedoc paths grow with every append
+    // Treedoc grows the tree by several levels at once when appending or prepending, so its
+    // paths stay far shorter than the number of appended atoms
     auto depth_after = [](Algorithm algorithm, Pattern pattern, size_t operation_count) {
         auto crdt = make_crdt(algorithm, 1);
         WorkloadConfig workload;
@@ -478,14 +512,17 @@ TEST(identifier_growth_characterization) {
     double logoot_front = depth_after(Algorithm::Logoot, Pattern::FrontInsert, 2000);
     double lseq_front = depth_after(Algorithm::LSEQ, Pattern::FrontInsert, 2000);
     double treedoc_end = depth_after(Algorithm::Treedoc, Pattern::EndInsert, 2000);
+    double treedoc_front = depth_after(Algorithm::Treedoc, Pattern::FrontInsert, 2000);
     double treedoc_random = depth_after(Algorithm::Treedoc, Pattern::RandomInsert, 2000);
 
     test_framework::context() = "logoot_front=" + std::to_string(logoot_front) + " lseq_front=" + std::to_string(lseq_front) +
-                    " treedoc_end=" + std::to_string(treedoc_end) + " treedoc_random=" + std::to_string(treedoc_random);
+                    " treedoc_end=" + std::to_string(treedoc_end) + " treedoc_front=" + std::to_string(treedoc_front) +
+                    " treedoc_random=" + std::to_string(treedoc_random);
 
     CHECK(logoot_front > 20);
     CHECK(lseq_front < logoot_front);
-    CHECK(treedoc_end >= 2000);
+    CHECK(treedoc_end < 200);
+    CHECK(treedoc_front < 200);
     CHECK(treedoc_random < 100);
 }
 

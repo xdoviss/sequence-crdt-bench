@@ -4,17 +4,18 @@
 // document is a binary tree read in order (subtree left, node, subtree right).
 // if multiple replicas insert concurrently at the same spot - their nodes are
 // split into "mini-nodes" (quoting the paper) of one "major node". those nodes
-// are sorted then by the "disambiguator", which is just (site, counter).//
+// are sorted then by the "disambiguator", which is (counter, site).
 // element identifiers (PosIDs) are paths from the root.
 //
 // if a replica gets an insertion and doesn't have its ancestors - it recreates
 // missing ancestors as invisible placeholders.
 // has tombstones, deleted leaf mini-nodes are collected immediately
 //
+// appending (or prepending) grows the tree by log2(h) + 1 levels at once and fills
+// the empty positions of that subtree in order (paper section 4.1)
+//
 // NOT COVERED:
 // flatten operation rebalances the tree, but requires all replicas to agree
-// the tree-growing heuristic for appendss not implemented either
-// because of this typing towards the end makes the tree and identifiers grow
 #pragma once
 
 #include <memory>
@@ -123,9 +124,12 @@ private:
         uint32_t mini_count = 0;
         uint8_t side = kRootSide; // which child slot of the parent
         bool via_mini = false;
+        uint8_t levels = 0; // levels of a grown subtree below this node that are not created yet
         Mini single; // the mini-node when mini_count == 1
         std::unique_ptr<Extra> extra;
     };
+
+    static constexpr uint32_t kEmpty = 0xFFFFFFFFu; // Spot index of an empty major node
 
     // mini-node, its major node and index among that major node's mini-nodes
     struct Spot {
@@ -157,9 +161,12 @@ private:
     Major* new_major(Major* parent, uint8_t side, bool via_mini, Disambiguator via);
     void detach(Major* major);
 
-    static Spot leftmost(Major* major);
-    static Spot leftmost_from_mini(Major* major, uint32_t index);
-    static Spot after_mini(Major* major, uint32_t index);
+    // walking positions (mini-nodes and empty major nodes), direction 1 = forward, 0 = backward
+    static Spot first_in(Major* major, uint8_t direction);
+    static Spot from_mini(Major* major, uint32_t index, uint8_t direction);
+    static Spot after_mini(Major* major, uint32_t index, uint8_t direction);
+    static Spot step(Spot spot, uint8_t direction);
+    static Spot skip_empty(Spot spot, uint8_t direction);
     Spot first() const;
     Spot successor(Spot spot) const;
     Spot at_visible(size_t rank) const;
@@ -169,6 +176,9 @@ private:
     void add_to_visible_counts(Major* major, int delta);
     void make_tombstone(Spot spot);
     void collect(Major* major);
+
+    Major* grow(Major* parent, uint8_t side, unsigned levels);
+    static unsigned growth_levels(const Major* major);
 
     Major* build_balanced(const std::vector<Value>& values, size_t low, size_t high, Major* parent, uint8_t side);
     void write_path(ByteWriter& writer, const TreedocPath& path) const;

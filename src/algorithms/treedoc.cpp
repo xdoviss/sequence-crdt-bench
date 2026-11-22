@@ -190,66 +190,107 @@ void Treedoc::detach(Major* major) {
     --major_total_;
 }
 
-Treedoc::Spot Treedoc::leftmost(Major* major) {
+// first position of the subtree of `major` when walking in `direction`
+Treedoc::Spot Treedoc::first_in(Major* major, uint8_t direction) {
+    const uint8_t near = static_cast<uint8_t>(1 - direction);
     while (true) {
-        if (major->children[0]) {
-            major = major->children[0];
+        if (major->children[near]) {
+            major = major->children[near];
             continue;
         }
 
-        if (major->mini_count > 0) {
-            Major* left = mini_child(major, minis(major)[0].disambiguator, 0);
-            if (!left) return Spot{major, 0};
-            major = left;
-            continue;
+        if (major->mini_count == 0) {
+            return Spot{major, kEmpty};
         }
 
-        // empty placeholder major node, only its right child can hold anything
-        if (!major->children[1]) return Spot{};
-        major = major->children[1];
+        const uint32_t index = direction == 1 ? 0 : major->mini_count - 1;
+        Major* child = mini_child(major, minis(major)[index].disambiguator, near);
+        if (!child) {
+            return Spot{major, index};
+        }
+        major = child;
     }
 }
 
-Treedoc::Spot Treedoc::leftmost_from_mini(Major* major, uint32_t index) {
-    Major* left = mini_child(major, minis(major)[index].disambiguator, 0);
-    return left ? leftmost(left) : Spot{major, index};
+Treedoc::Spot Treedoc::from_mini(Major* major, uint32_t index, uint8_t direction) {
+    Major* child = mini_child(major, minis(major)[index].disambiguator, static_cast<uint8_t>(1 - direction));
+    if (child) {
+        return first_in(child, direction);
+    }
+    return Spot{major, index};
 }
 
-Treedoc::Spot Treedoc::after_mini(Major* major, uint32_t index) {
+// next position once mini-node `index` (or with kEmpty the empty major node itself) and
+// everything on its far side are done
+Treedoc::Spot Treedoc::after_mini(Major* major, uint32_t index, uint8_t direction) {
+    const uint8_t near = static_cast<uint8_t>(1 - direction);
     while (true) {
-        if (index + 1 < major->mini_count) return leftmost_from_mini(major, index + 1);
-        if (major->children[1]) return leftmost(major->children[1]);
+        if (index != kEmpty) {
+            const bool more = direction == 1 ? index + 1 < major->mini_count : index > 0;
+            if (more) {
+                return from_mini(major, direction == 1 ? index + 1 : index - 1, direction);
+            }
+        }
+        if (major->children[direction]) {
+            return first_in(major->children[direction], direction);
+        }
 
-        // the whole subtree of `major` is done, climb up
         while (true) {
             Major* parent = major->parent;
-            if (!parent) return Spot{};
+            if (!parent) {
+                return Spot{};
+            }
 
             if (major->via_mini) {
                 uint32_t owner;
                 find_mini(parent, major->via, &owner);
-                if (major->side == 0) return Spot{parent, owner}; // left child of a mini-node, the mini-node is next
+                if (major->side == near) {
+                    return Spot{parent, owner};
+                }
                 major = parent;
                 index = owner;
                 break;
             }
 
-            if (major->side == 0) {
-                if (parent->mini_count > 0) return leftmost_from_mini(parent, 0);
-                if (parent->children[1]) return leftmost(parent->children[1]);
+            if (major->side == near) {
+                if (parent->mini_count == 0) {
+                    return Spot{parent, kEmpty};
+                }
+                return from_mini(parent, direction == 1 ? 0 : parent->mini_count - 1, direction);
             }
             major = parent;
         }
     }
 }
 
-Treedoc::Spot Treedoc::first() const { return root_ ? leftmost(root_) : Spot{}; }
+Treedoc::Spot Treedoc::step(Spot spot, uint8_t direction) {
+    if (spot.index == kEmpty) {
+        return after_mini(spot.major, kEmpty, direction);
+    }
+
+    Major* child = mini_child(spot.major, mini_at(spot).disambiguator, direction);
+    if (child) {
+        return first_in(child, direction);
+    }
+    return after_mini(spot.major, spot.index, direction);
+}
+
+Treedoc::Spot Treedoc::skip_empty(Spot spot, uint8_t direction) {
+    while (spot && spot.index == kEmpty) {
+        spot = step(spot, direction);
+    }
+    return spot;
+}
+
+Treedoc::Spot Treedoc::first() const {
+    if (!root_) {
+        return Spot{};
+    }
+    return skip_empty(first_in(root_, 1), 1);
+}
 
 // next mini-node, counting every mini-node (visible, tombstone, placeholder)
-Treedoc::Spot Treedoc::successor(Spot spot) const {
-    Major* right = mini_child(spot.major, mini_at(spot).disambiguator, 1);
-    return right ? leftmost(right) : after_mini(spot.major, spot.index);
-}
+Treedoc::Spot Treedoc::successor(Spot spot) const { return skip_empty(step(spot, 1), 1); }
 
 // visible mini-node with `rank` visible mini-nodes before it
 Treedoc::Spot Treedoc::at_visible(size_t rank) const {
@@ -405,27 +446,83 @@ void Treedoc::collect(Major* major) {
     }
 }
 
+Treedoc::Major* Treedoc::grow(Major* parent, uint8_t side, unsigned levels) {
+    Major* major = new_major(parent, side, false, kNone);
+    major->levels = static_cast<uint8_t>(levels - 1);
+    while (major->levels > 0) {
+        Major* child = new_major(major, static_cast<uint8_t>(1 - side), false, kNone);
+        child->levels = static_cast<uint8_t>(major->levels - 1);
+        major = child;
+    }
+    return major;
+}
+
+// log2(h) + 1 levels, rounded up, where h is the depth of `major`
+unsigned Treedoc::growth_levels(const Major* major) {
+    unsigned depth = 0;
+    for (const Major* ancestor = major; ancestor; ancestor = ancestor->parent) {
+        ++depth;
+    }
+
+    unsigned levels = 1;
+    while (levels < 30 && (1u << (levels - 1)) < depth) {
+        ++levels;
+    }
+    return levels;
+}
+
 Operation Treedoc::insert(size_t position, Value value) {
-    if (position > size()) throw std::out_of_range("Treedoc insert position out of range");
+    if (position > size()) {
+        throw std::out_of_range("Treedoc insert position out of range");
+    }
 
-    Spot previous = position ? at_visible(position - 1) : Spot{};
-    Major* target = nullptr;
+    const Spot previous = position ? at_visible(position - 1) : Spot{};
+    const Spot following = previous ? successor(previous) : first();
 
+    Major* parent = nullptr;
+    uint8_t side = kRootSide;
+    bool via_mini = false;
+    Disambiguator via = kNone;
     if (previous) {
         Major* major = previous.major;
         const Disambiguator owner = mini_at(previous).disambiguator;
         const bool right_taken = mini_child(major, owner, 1) != nullptr;
 
         if (!right_taken && previous.index + 1 < major->mini_count) {
-            target = new_major(major, 1, true, owner);
+            parent = major;
+            side = 1;
+            via_mini = true;
+            via = owner;
         } else if (!right_taken && !major->children[1]) {
-            target = new_major(major, 1, false, kNone);
+            parent = major;
+            side = 1;
         } else {
-            Spot following = successor(previous);
-            target = new_major(following.major, 0, false, kNone);
+            parent = following.major;
+            side = 0;
         }
+    } else if (following) {
+        parent = following.major;
+        side = 0;
     } else if (root_) {
-        target = new_major(first().major, 0, false, kNone);
+        throw std::logic_error("Treedoc tree without mini-nodes");
+    }
+
+    Spot gap;
+    if (previous) {
+        gap = step(previous, 1);
+    } else if (following) {
+        gap = step(following, 0);
+    }
+
+    Major* target = nullptr;
+    if (parent && !via_mini && parent->levels > 0) {
+        target = grow(parent, side, parent->levels);
+    } else if (gap && gap.index == kEmpty) {
+        target = gap.major;
+    } else if (parent && !via_mini && (side == 1 ? !following : !previous)) {
+        target = grow(parent, side, growth_levels(parent));
+    } else if (parent) {
+        target = new_major(parent, side, via_mini, via);
     } else {
         target = new_major(nullptr, kRootSide, false, kNone);
     }
