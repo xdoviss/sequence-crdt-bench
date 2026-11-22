@@ -30,7 +30,7 @@ enum class DeliveryMode { Causal, Direct };
 struct ReceiveOutcome {
     std::vector<std::pair<ReplicaId, uint64_t>> applied;  // (origin, sequence number) handed to the CRDT
     size_t duplicates = 0;
-    size_t buffered = 0;  // put into the waiting buffer
+    size_t buffered = 0;  // put into the causal buffer (in direct mode the algorithm's own waiting pool)
     size_t rejected = 0;
 };
 
@@ -78,6 +78,7 @@ private:
     void mark_changed(ReplicaId replica);
     bool is_ready(const Operation& operation) const;
     void deliver(const Operation& operation, ReceiveOutcome& outcome);
+    void add_released(ReceiveOutcome& outcome);
     void deliver_buffered(ReceiveOutcome& outcome);
     ReceiveOutcome receive_direct(const Operation& operation);
 };

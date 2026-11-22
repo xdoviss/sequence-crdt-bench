@@ -17,8 +17,10 @@ namespace crdt {
 // applies `operation` with `try_apply`
 // too early -> stored in `waiting`
 // success -> waiting operations are retried until all fail
+// every waiting operation that leaves the list is reported in `released` as (origin, sequence number)
 template <class TryApply>
-ApplyStatus apply_or_wait(std::vector<Operation>& waiting, const Operation& operation, TryApply try_apply) {
+ApplyStatus apply_or_wait(std::vector<Operation>& waiting, std::vector<std::pair<ReplicaId, uint64_t>>& released,
+                          const Operation& operation, TryApply try_apply) {
     if (!operation.body) 
         return ApplyStatus::Rejected;
 
@@ -41,6 +43,7 @@ ApplyStatus apply_or_wait(std::vector<Operation>& waiting, const Operation& oper
                 continue;
             }
 
+            released.push_back({waiting[index].origin, waiting[index].sequence_number});
             waiting.erase(waiting.begin() + static_cast<std::ptrdiff_t>(index));
             progress = true;
         }

@@ -70,6 +70,28 @@ TEST(replica_dependency_delta_keeps_causal_order) {
     }
 }
 
+TEST(network_direct_delivery_counts_pool_releases) {
+    for (Algorithm algorithm : {Algorithm::WOOT, Algorithm::RGA}) {
+        test_framework::context() = to_string(algorithm);
+
+        SimConfig config = base_config(algorithm);
+        config.delivery = DeliveryMode::Direct;
+        config.network.latency_ms = 5;
+        config.network.jitter_ms = 200; // heavy reordering
+        SimResult result = run_simulation(config);
+
+        expect_converged(result, config); // also checks every remote operation was counted exactly once
+        CHECK(result.scalars["causally_buffered"] > 0); // some did wait in the pool
+
+        // no dependencies are sent without the causal layer
+        SimConfig causal = config;
+        causal.delivery = DeliveryMode::Causal;
+        SimResult causal_result = run_simulation(causal);
+        expect_converged(causal_result, causal);
+        CHECK(result.scalars["envelope_bytes_per_op"] < causal_result.scalars["envelope_bytes_per_op"]);
+    }
+}
+
 TEST(network_default_scenario_converges) {
     for (Algorithm algorithm : all_algorithms()) {
         test_framework::context() = to_string(algorithm);

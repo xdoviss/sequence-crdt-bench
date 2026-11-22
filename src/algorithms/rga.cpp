@@ -95,7 +95,7 @@ ApplyStatus Rga::try_apply(const Operation& operation) {
 }
 
 ApplyStatus Rga::apply(const Operation& operation) {
-    return apply_or_wait(waiting_, operation, [this](const Operation& next) { return try_apply(next); });
+    return apply_or_wait(waiting_, released_, operation, [this](const Operation& next) { return try_apply(next); });
 }
 
 Operation Rga::insert(size_t position, Value value) {

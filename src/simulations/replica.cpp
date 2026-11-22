@@ -29,12 +29,13 @@ void Replica::mark_changed(ReplicaId replica) {
 
 // fills in the envelope of a local edit w/ who made it, its number and what it depends on.
 // only the entries that changed since previous operation are sent
+// in direct mode nobody checks dependencies, so none are sent (like WOOT, which has no vector clocks)
 Operation Replica::stamp(Operation operation) {
     operation.origin = id_;
     operation.dependencies.clear();
     std::sort(changed_.begin(), changed_.end());  // deterministic order on the wire
     for (ReplicaId replica : changed_) {
-        operation.dependencies.push_back(Dependency{replica, delivered_[replica]});
+        if (mode_ == DeliveryMode::Causal) operation.dependencies.push_back(Dependency{replica, delivered_[replica]});
         is_changed_[replica] = 0;
     }
 
@@ -68,6 +69,16 @@ void Replica::deliver(const Operation& operation, ReceiveOutcome& outcome) {
     delivered_[operation.origin] = std::max(delivered_[operation.origin], operation.sequence_number);
     mark_changed(operation.origin);
     outcome.applied.push_back({operation.origin, operation.sequence_number});
+    add_released(outcome);
+}
+
+// operations the algorithm had parked in its own waiting pool and has now integrated
+// (restores from a snapshot)
+void Replica::add_released(ReceiveOutcome& outcome) {
+    for (const auto& released : crdt_->drain_released()) {
+        if (released.second != 0) 
+            outcome.applied.push_back(released);
+    }
 }
 
 // keeps delivering buffered operations when they become ready
@@ -107,7 +118,9 @@ ReceiveOutcome Replica::receive_direct(const Operation& operation) {
         return outcome;
     }
 
-    if (crdt_->apply(operation) == ApplyStatus::Rejected) outcome.rejected++;
+    const ApplyStatus status = crdt_->apply(operation);
+    if (status == ApplyStatus::Rejected) 
+        outcome.rejected++;
 
     seen.insert(operation.sequence_number);
     while (seen.count(delivered + 1)) {
@@ -115,7 +128,13 @@ ReceiveOutcome Replica::receive_direct(const Operation& operation) {
         delivered++;
         mark_changed(operation.origin);
     }
-    outcome.applied.push_back({operation.origin, operation.sequence_number});
+
+    if (status == ApplyStatus::Buffered) 
+        outcome.buffered++;
+    else 
+        outcome.applied.push_back({operation.origin, operation.sequence_number});
+
+    add_released(outcome);
     return outcome;
 }
 

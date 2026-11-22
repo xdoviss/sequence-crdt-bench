@@ -215,7 +215,7 @@ ApplyStatus Woot::try_apply(const Operation& operation) {
 }
 
 ApplyStatus Woot::apply(const Operation& operation) {
-    return apply_or_wait(waiting_, operation, [this](const Operation& next) { return try_apply(next); });
+    return apply_or_wait(waiting_, released_, operation, [this](const Operation& next) { return try_apply(next); });
 }
 
 void Woot::encode_body(const Operation& operation, ByteWriter& writer) const {

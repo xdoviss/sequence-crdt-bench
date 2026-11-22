@@ -76,8 +76,12 @@ public:
     void encode_body(const Operation& operation, ByteWriter& writer) const override;
     std::shared_ptr<const OperationBody> decode_body(OperationKind kind, ByteReader& reader) const override;
 
-    bool requires_causal_delivery() const override { 
-        return false; 
+    bool requires_causal_delivery() const override {
+        return false;
+    }
+
+    std::vector<std::pair<ReplicaId, uint64_t>> drain_released() override {
+        return std::exchange(released_, {});
     }
 
     Bytes serialize() const override;
@@ -99,6 +103,7 @@ private:
     Node* begin_ = nullptr; // invisible marker before the first character
     Node* end_ = nullptr; // invisible marker after the last character
     std::vector<Operation> waiting_; // ops whose neighbours have not yet arrived
+    std::vector<std::pair<ReplicaId, uint64_t>> released_; // waiting ops processed since the last drain_released()
 
     Node* find(WootId id) const;
     void integrate(const WootChar& character, Node* previous, Node* next);

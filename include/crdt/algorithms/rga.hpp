@@ -75,8 +75,12 @@ public:
     void encode_body(const Operation& operation, ByteWriter& writer) const override;
     std::shared_ptr<const OperationBody> decode_body(OperationKind kind, ByteReader& reader) const override;
 
-    bool requires_causal_delivery() const override { 
-        return false; 
+    bool requires_causal_delivery() const override {
+        return false;
+    }
+
+    std::vector<std::pair<ReplicaId, uint64_t>> drain_released() override {
+        return std::exchange(released_, {});
     }
 
     Bytes serialize() const override;
@@ -97,6 +101,7 @@ private:
     std::unordered_map<uint64_t, Node*> id_index_; // finds element by its id
     Node* head_ = nullptr; // first element, id {0, 0} (invisible)
     std::vector<Operation> waiting_; // operations whose reference has not yet arrived
+    std::vector<std::pair<ReplicaId, uint64_t>> released_; // waiting ops processed since the last drain_released()
 
     Node* find(RgaId id) const;
     ApplyStatus try_apply(const Operation& operation);

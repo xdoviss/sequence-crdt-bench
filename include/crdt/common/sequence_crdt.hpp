@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "crdt/common/operation.hpp"
@@ -45,6 +46,9 @@ public:
     // true if operations must arrive in cause before effect order (Logoot, LSEQ, Treedoc)
     // false for WOOT and RGA, because they keep tombstones and have a waiting list of their own
     virtual bool requires_causal_delivery() const = 0;
+    // (origin, sequence number) of operations from the algorithm's own waiting pool that were
+    // processed during the last apply() calls
+    virtual std::vector<std::pair<ReplicaId, uint64_t>> drain_released() { return {}; }
 
     // SAVING AND LOADING THE STATE
     

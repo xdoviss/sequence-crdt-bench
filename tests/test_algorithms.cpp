@@ -2,6 +2,7 @@
 
 #include "crdt/algorithms/logoot.hpp"
 #include "crdt/algorithms/lseq.hpp"
+#include "crdt/algorithms/treedoc.hpp"
 #include "helpers.hpp"
 
 using namespace crdt;
@@ -332,9 +333,50 @@ TEST(ordering_rule_woot_and_treedoc_site_order) {
         replicas[1]->receive(insert_x);
         CHECK_CONVERGED(replicas);
 
-        // both order concurrent insertions at the same place by (site, counter)
         CHECK_EQ(replicas[0]->crdt().text(), std::string("aXYb"));
     }
+}
+
+TEST(treedoc_paths_and_mini_node_children_like_paper) {
+    auto replicas = make_replicas(Algorithm::Treedoc, 3, from_text("cd"));
+    Operation insert_w = replicas[0]->insert(1, 'W');
+    Operation insert_y = replicas[1]->insert(1, 'Y');
+    for (auto& replica : replicas) {
+        replica->receive(insert_w);
+        replica->receive(insert_y);
+    }
+    CHECK_CONVERGED(replicas);
+    CHECK_EQ(replicas[2]->crdt().text(), std::string("cWYd"));
+
+    Operation insert_x = replicas[2]->insert(2, 'X'); // between the mini-siblings W and Y
+    for (auto& replica : replicas) replica->receive(insert_x);
+    CHECK_CONVERGED(replicas);
+    CHECK_EQ(replicas[0]->crdt().text(), std::string("cWXYd"));
+
+    const auto& path = static_cast<const TreedocInsert&>(*insert_x.body).path;
+    CHECK(path.size() >= 2);
+    CHECK(path.back().has_disambiguator);
+    CHECK(path[path.size() - 2].has_disambiguator); // continues under mini-node W explicitly
+    CHECK(path[path.size() - 2].disambiguator == static_cast<const TreedocInsert&>(*insert_w.body).path.back().disambiguator);
+    for (size_t step = 0; step + 2 < path.size(); ++step) CHECK(!path[step].has_disambiguator); // exploded part, bits only
+
+    // snapshot round trip keeps the mini-node child, and edits after it still converge
+    auto restored = make_crdt(Algorithm::Treedoc, 9);
+    restored->deserialize(replicas[0]->crdt().serialize());
+    CHECK_EQ(restored->text(), std::string("cWXYd"));
+    CHECK_INVARIANTS(*restored);
+
+    // W has a child of its own (X), so deleting W keeps it as a tombstone, deleting X then
+    // lets garbage collection remove both
+    Operation erase_w = replicas[0]->erase(1);
+    for (auto& replica : replicas) replica->receive(erase_w);
+    CHECK_EQ(replicas[1]->crdt().get_structure_statistics().get("tombstones"), 1.0);
+    Operation erase_x = replicas[1]->erase(1);
+    for (auto& replica : replicas) replica->receive(erase_x);
+    CHECK_CONVERGED(replicas);
+    CHECK_EQ(replicas[2]->crdt().text(), std::string("cYd"));
+    CHECK_EQ(replicas[2]->crdt().get_structure_statistics().get("tombstones"), 0.0);
+    for (auto& replica : replicas) CHECK_INVARIANTS(replica->crdt());
 }
 
 TEST(ordering_rule_logoot_lseq_generate_between) {
